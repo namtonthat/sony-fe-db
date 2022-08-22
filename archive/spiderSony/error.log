@@ -1,0 +1,1215 @@
+INFO:scrapy.utils.log:Scrapy 2.3.0 started (bot: spiderSony)
+INFO:scrapy.utils.log:Versions: lxml 4.5.0.0, libxml2 2.9.9, cssselect 1.1.0, parsel 1.6.0, w3lib 1.22.0, Twisted 20.3.0, Python 3.7.6 (default, Jan  8 2020, 13:42:34) - [Clang 4.0.1 (tags/RELEASE_401/final)], pyOpenSSL 19.1.0 (OpenSSL 1.1.1d  10 Sep 2019), cryptography 2.8, Platform Darwin-19.6.0-x86_64-i386-64bit
+DEBUG:scrapy.utils.log:Using reactor: twisted.internet.selectreactor.SelectReactor
+INFO:scrapy.crawler:Overridden settings:
+{'BOT_NAME': 'spiderSony',
+ 'NEWSPIDER_MODULE': 'spiderSony.spiders',
+ 'ROBOTSTXT_OBEY': True,
+ 'SPIDER_MODULES': ['spiderSony.spiders']}
+INFO:scrapy.extensions.telnet:Telnet Password: f853616cd02d5cb4
+INFO:scrapy.middleware:Enabled extensions:
+['scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.memusage.MemoryUsage',
+ 'scrapy.extensions.feedexport.FeedExporter',
+ 'scrapy.extensions.logstats.LogStats']
+INFO:scrapy.middleware:Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.robotstxt.RobotsTxtMiddleware',
+ 'scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+INFO:scrapy.middleware:Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+INFO:scrapy.middleware:Enabled item pipelines:
+[]
+INFO:scrapy.core.engine:Spider opened
+INFO:scrapy.extensions.logstats:Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+INFO:scrapy.extensions.telnet:Telnet console listening on 127.0.0.1:6024
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/robots.txt> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/lenses/t/camera-lenses> (referer: None)
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel20f28> from <GET http://www.sony.com/electronics/camera-lenses/sel20f28>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel24f18z> from <GET http://www.sony.com/electronics/camera-lenses/sel24f18z>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel50f18> from <GET http://www.sony.com/electronics/camera-lenses/sel50f18>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel70200gm> from <GET http://www.sony.com/electronics/camera-lenses/sel70200gm>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel24240> from <GET http://www.sony.com/electronics/camera-lenses/sel24240>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel50f14z> from <GET http://www.sony.com/electronics/camera-lenses/sel50f14z>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel35f18f> from <GET http://www.sony.com/electronics/camera-lenses/sel35f18f>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel2870> from <GET http://www.sony.com/electronics/camera-lenses/sel2870>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel16f28> from <GET http://www.sony.com/electronics/camera-lenses/sel16f28>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel28f20-series> from <GET http://www.sony.com/electronics/camera-lenses/sel28f20-series>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel135f18gm> from <GET http://www.sony.com/electronics/camera-lenses/sel135f18gm>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel2860> from <GET http://www.sony.com/electronics/camera-lenses/sel2860>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel24105g> from <GET http://www.sony.com/electronics/camera-lenses/sel24105g>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel85f14gm> from <GET http://www.sony.com/electronics/camera-lenses/sel85f14gm>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/selp1650> from <GET http://www.sony.com/electronics/camera-lenses/selp1650>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel1635z> from <GET http://www.sony.com/electronics/camera-lenses/sel1635z>
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel20f28> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel2870> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel35f18f> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel50f14z> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel24240> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel50f18> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel24f18z> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel70200gm> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel24105g> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel135f18gm> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel28f20-series> (referer: None)
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel70350g> from <GET http://www.sony.com/electronics/camera-lenses/sel70350g>
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel1635z> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/selp1650> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel85f14gm> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel2860> (referer: None)
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel30m35> from <GET http://www.sony.com/electronics/camera-lenses/sel30m35>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel1655g> from <GET http://www.sony.com/electronics/camera-lenses/sel1655g>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel600f40gm> from <GET http://www.sony.com/electronics/camera-lenses/sel600f40gm>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel1224g> from <GET http://www.sony.com/electronics/camera-lenses/sel1224g>
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel16f28> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel50f14z/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel50f14z)
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel2470z> from <GET http://www.sony.com/electronics/camera-lenses/sel2470z>
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel20f28/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel20f28)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel70200gm/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel70200gm)
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel35f18> from <GET http://www.sony.com/electronics/camera-lenses/sel35f18>
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel70350g> (referer: None)
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel50f14z/specifications>
+{'apertureBlades': '11',
+ 'dimensions': '3 3/8 x 4 3/8" (83.5 x 108 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '72 mm',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '9/12',
+ 'imageSource': 'http://www.sony.com/image/2fdada16d76ee6f06e7a48da40b8c040?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$1,499.99',
+ 'magnification': '0.15 x',
+ 'maxFocalLength': '50',
+ 'maxSpeed': '1.4',
+ 'minFocalLength': '50',
+ 'minSpeed': '1.4',
+ 'mount': 'E-mount',
+ 'productName': 'PLANAR T* FE 50mm F1.4 ZA',
+ 'sku': 'SEL50F14Z',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel50f14z',
+ 'weight': '778'}
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel20f28/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '2-1/2 x 13/16" (62.6 x 20.4 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '49 mm',
+ 'fullFrame': 'APS-C',
+ 'groupsElements': '6/6',
+ 'imageSource': 'http://www.sony.com/image/95849e2146760315cdb24e7bfb03d90a?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$349.99',
+ 'magnification': '0.12x',
+ 'maxFocalLength': '20',
+ 'maxSpeed': '2.8',
+ 'minFocalLength': '20',
+ 'minSpeed': '2.8',
+ 'mount': 'E-mount',
+ 'productName': 'E 20 MM F2.8',
+ 'sku': 'SEL20F28',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel20f28',
+ 'weight': '69'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel35f18f/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel35f18f)
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel70200gm/specifications>
+{'apertureBlades': '11',
+ 'dimensions': '88.0 x 200 mm',
+ 'focus': 'AF',
+ 'frontFilter': '77 mm',
+ 'fullFrame': '35 mm full-frame',
+ 'groupsElements': '18/23',
+ 'imageSource': 'http://www.sony.com/image/760bbcc1c6ab841ec5f28b080d652e20?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$2,599.99',
+ 'magnification': '0.25x',
+ 'maxFocalLength': '200',
+ 'maxSpeed': '2.8',
+ 'minFocalLength': '70',
+ 'minSpeed': '2.8',
+ 'mount': 'E-mount',
+ 'productName': 'FE 70-200 MM F2.8 GM OSS',
+ 'sku': 'SEL70200GM',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel70200gm',
+ 'weight': '52.21 oz (without tripod mount)'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel50f18/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel50f18)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel2870/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel2870)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel30m35> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel1655g> (referer: None)
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel35f18f/specifications>
+{'apertureBlades': '9',
+ 'dimensions': '2–5/8 x 2–7/8 in (65.6 x 73 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '55',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '9-11',
+ 'imageSource': 'http://www.sony.com/image/8043f1140ea587950aa49cbbaf210178?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$749.99',
+ 'magnification': '0.24',
+ 'maxFocalLength': '35',
+ 'maxSpeed': '1.8',
+ 'minFocalLength': '35',
+ 'minSpeed': '1.8',
+ 'mount': 'E-mount',
+ 'productName': 'FE 35 MM F1.8',
+ 'sku': 'SEL35F18F',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel35f18',
+ 'weight': '280'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel600f40gm> (referer: None)
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel50f18/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '2-1/2 x 2-1/2" (62 x 62 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '49 mm',
+ 'fullFrame': 'APS-C',
+ 'groupsElements': '8/9',
+ 'imageSource': 'http://www.sony.com/image/f0babd4c7658de878744453c34d3a4e0?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$349.99',
+ 'magnification': '0.16x',
+ 'maxFocalLength': '50',
+ 'maxSpeed': '1.8',
+ 'minFocalLength': '50',
+ 'minSpeed': '1.8',
+ 'mount': 'E-mount',
+ 'productName': 'E 50 MM F1.8 OSS',
+ 'sku': 'SEL50F18',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel50f18',
+ 'weight': '202'}
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel2870/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '2-7/8 x 3-3/8" (72.5 x 83 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '55 mm',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '8/9',
+ 'imageSource': 'http://www.sony.com/image/fd6df2f58083e52631a23154639f3571?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$399.99',
+ 'magnification': '0.19x',
+ 'maxFocalLength': '70',
+ 'maxSpeed': '3.5',
+ 'minFocalLength': '28',
+ 'minSpeed': '5.6',
+ 'mount': 'E-mount',
+ 'productName': 'FE 28–70\xa0mm F3.5–5.6 OSS',
+ 'sku': 'SEL2870',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel2870',
+ 'weight': '295'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel85f14gm/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel85f14gm)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel28f20-series/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel28f20-series)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel2860/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel2860)
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel85f14gm/specifications>
+{'apertureBlades': '11',
+ 'dimensions': '89.5 x 107.5 mm',
+ 'focus': 'AF',
+ 'frontFilter': '77 mm',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '8/11',
+ 'imageSource': 'http://www.sony.com/image/a87ba89b572ad0476a7ffafae91c3b7a?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$1,799.99',
+ 'magnification': '0.12 x',
+ 'maxFocalLength': '85',
+ 'maxSpeed': '1.4',
+ 'minFocalLength': '85',
+ 'minSpeed': '1.4',
+ 'mount': 'E-mount',
+ 'productName': 'FE 85 mm F1.4 GM',
+ 'sku': 'SEL85F14GM',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel85f14gm',
+ 'weight': '28.92 oz'}
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel28f20-series/specifications>
+{'apertureBlades': '9',
+ 'dimensions': '2-5/8 x 2-3/8" (64 x 60 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '49 mm',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '8/9',
+ 'imageSource': 'http://www.sony.com/image/4cbc547aa9452ecb0f87cac0c087ac67?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$449.99',
+ 'magnification': '0.13x(AF) / 0.16x(MF)',
+ 'maxFocalLength': '28',
+ 'maxSpeed': '2',
+ 'minFocalLength': '28',
+ 'minSpeed': '2',
+ 'mount': 'E-mount',
+ 'productName': 'FE 28 mm F2',
+ 'sku': 'SEL28F20',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel28f20-ser',
+ 'weight': '200'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel2470z> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel35f18> (referer: None)
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel2860/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '2.62 x 1.77 " (66.6 x 45 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '40.5',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '7-8',
+ 'imageSource': 'http://www.sony.com/image/4ce166d4ed61d7515d8ae38d898a719c?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$499.99',
+ 'magnification': '0.16',
+ 'maxFocalLength': '60',
+ 'maxSpeed': '4',
+ 'minFocalLength': '28',
+ 'minSpeed': '5.6',
+ 'mount': 'E-mount',
+ 'productName': 'FE 28–60 MM F4–5.6',
+ 'sku': 'SEL2860',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel2860',
+ 'weight': '167'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/selp1650/specifications> (referer: https://www.sony.com/electronics/camera-lenses/selp1650)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel135f18gm/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel135f18gm)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel1224g> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel16f28/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel16f28)
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel1224gm> from <GET http://www.sony.com/electronics/camera-lenses/sel1224gm>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel18200> from <GET http://www.sony.com/electronics/camera-lenses/sel18200>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel1855> from <GET http://www.sony.com/electronics/camera-lenses/sel1855>
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel600f40gm/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel600f40gm)
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/selp1650/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '2-5/8 x 1-3/16" (64.7 x 29.9 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '40.5mm',
+ 'fullFrame': 'APS-C',
+ 'groupsElements': '8/9',
+ 'imageSource': 'http://www.sony.com/image/df16a7cf5aaf8ccf299bbaf6543f6ae3?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$299.99',
+ 'magnification': '0.215x',
+ 'maxFocalLength': '50',
+ 'maxSpeed': '3.5',
+ 'minFocalLength': '16',
+ 'minSpeed': '5.6',
+ 'mount': 'E-mount',
+ 'productName': 'E PZ 16–50MM F3.5–5.6 OSS',
+ 'sku': 'SELP1650',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/selp1650',
+ 'weight': '116'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel30m35/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel30m35)
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel135f18gm/specifications>
+{'apertureBlades': '11',
+ 'dimensions': '3-5/8 x 5" (89.5 x 127 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '82',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '10–13',
+ 'imageSource': 'http://www.sony.com/image/4596489397ebc90f26c6a9c0b79b842f?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$2,099.99',
+ 'magnification': '0.25',
+ 'maxFocalLength': '135',
+ 'maxSpeed': '1.8',
+ 'minFocalLength': '135',
+ 'minSpeed': '1.8',
+ 'mount': 'E-mount',
+ 'productName': 'FE 135mm F1.8 GM',
+ 'sku': 'SEL135F18GM',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel135f18gm',
+ 'weight': '950'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel24105g/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel24105g)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel24f18z/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel24f18z)
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel55f18z> from <GET http://www.sony.com/electronics/camera-lenses/sel55f18z>
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel16f28/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '2-1/2 x 29/32" (62 x 22.5 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '49 mm',
+ 'fullFrame': 'APS-C',
+ 'groupsElements': '5/5',
+ 'imageSource': 'http://www.sony.com/image/d0d5b55c6755ddb4d6d219426db5ea08?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$249.99',
+ 'magnification': '0.078x',
+ 'maxFocalLength': '16',
+ 'maxSpeed': '2.8',
+ 'minFocalLength': '16',
+ 'minSpeed': '2.8',
+ 'mount': 'E-mount',
+ 'productName': 'E 16 MM F2.8',
+ 'sku': 'SEL16F28',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel16f28',
+ 'weight': '67'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel70350g/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel70350g)
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel600f40gm/specifications>
+{'apertureBlades': '11',
+ 'dimensions': '6 1/2 in x 17 3/4 in (163.6 mm x 449 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '40.5',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '18–24 *Including one filter',
+ 'imageSource': 'http://www.sony.com/image/2213c3c52aefcf6fedbd8bd7dc26c337?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$12,999.99',
+ 'magnification': '0.14',
+ 'maxFocalLength': '600',
+ 'maxSpeed': '4',
+ 'minFocalLength': '600',
+ 'minSpeed': '4',
+ 'mount': 'E-mount',
+ 'productName': 'FE 600MM F4 GM OSS',
+ 'sku': 'SEL600F40GM',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel600f40gm',
+ 'weight': '040'}
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel70300g> from <GET http://www.sony.com/electronics/camera-lenses/sel70300g>
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel30m35/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '2-1/2 x 2-1/4" (62.0 x 55.5mm)',
+ 'focus': 'AF',
+ 'frontFilter': '49 mm',
+ 'fullFrame': 'APS-C',
+ 'groupsElements': '6/7',
+ 'imageSource': 'http://www.sony.com/image/29cc3abbce5a3b17571c44195424e731?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$299.99',
+ 'magnification': '1.0x',
+ 'maxFocalLength': '82',
+ 'maxSpeed': '3.5',
+ 'minFocalLength': '11',
+ 'minSpeed': '3.5',
+ 'mount': 'E-mount',
+ 'productName': 'E 30 MM F3.5 MACRO',
+ 'sku': 'SEL30M35',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel30m35',
+ 'weight': '138'}
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel24f14gm> from <GET http://www.sony.com/electronics/camera-lenses/sel24f14gm>
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel1655g/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel1655g)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel1224gm> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel18200> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel1855> (referer: None)
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel24105g/specifications>
+{'apertureBlades': '9',
+ 'dimensions': '3-3/8 x 4-1/2 in (83.4 x 113.3 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '77',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '14-17',
+ 'imageSource': 'http://www.sony.com/image/f4771c5d7b761e85003a5f2424c1a03d?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$1,399.99',
+ 'magnification': '0.31',
+ 'maxFocalLength': '105',
+ 'maxSpeed': '4',
+ 'minFocalLength': '24',
+ 'minSpeed': '4',
+ 'mount': 'E-mount',
+ 'productName': 'FE 24–105 mm F4 G OSS Lens',
+ 'sku': 'SEL24105G',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel24105g',
+ 'weight': '663'}
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel24f18z/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '2-1/2 x 2-5/8" (63 x 65.5 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '49 mm',
+ 'fullFrame': 'APS-C',
+ 'groupsElements': '7/8',
+ 'imageSource': 'http://www.sony.com/image/516d49a2c984f9160184c7e6c18e5db4?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$1,099.99',
+ 'magnification': '0.25x',
+ 'maxFocalLength': '24',
+ 'maxSpeed': '1.8',
+ 'minFocalLength': '24',
+ 'minSpeed': '1.8',
+ 'mount': 'E-mount',
+ 'productName': 'SONNAR® T* E 24 MM F1.8 ZA',
+ 'sku': 'SEL24F18Z',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel24f18z',
+ 'weight': '225'}
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel70350g/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '77 x 142 mm (3-1/8 x 5-5/8")',
+ 'focus': 'AF',
+ 'frontFilter': '67',
+ 'fullFrame': 'APS-C',
+ 'groupsElements': '13–19',
+ 'imageSource': 'http://www.sony.com/image/75697c37e43d98152ddb2358134223ef?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$999.99',
+ 'magnification': '0.23',
+ 'maxFocalLength': '350',
+ 'maxSpeed': '4.5',
+ 'minFocalLength': '70',
+ 'minSpeed': '6.3',
+ 'mount': 'E-mount',
+ 'productName': 'E 70–350 mm F4.5–6.3 G OSS',
+ 'sku': 'SEL70350G',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel70350g',
+ 'weight': '625'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel24240/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel24240)
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/selp28135g> from <GET http://www.sony.com/electronics/camera-lenses/selp28135g>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel18200le> from <GET http://www.sony.com/electronics/camera-lenses/sel18200le>
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel1655g/specifications>
+{'apertureBlades': '9',
+ 'dimensions': '2 7/8 x 4" (73 x 100 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '67',
+ 'fullFrame': 'APS-C',
+ 'groupsElements': '12-17',
+ 'imageSource': 'http://www.sony.com/image/c4cd155b3984159ac8050fd24aef8281?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$1,399.99',
+ 'magnification': '0.2',
+ 'maxFocalLength': '55',
+ 'maxSpeed': '2.8',
+ 'minFocalLength': '16',
+ 'minSpeed': '2.8',
+ 'mount': 'E-mount',
+ 'productName': 'E 16–55 mm F2.8 G',
+ 'sku': 'SEL1655G',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel1655g',
+ 'weight': '494'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel1224g/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel1224g)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel70300g> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel24f14gm> (referer: None)
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/selp18200> from <GET http://www.sony.com/electronics/camera-lenses/selp18200>
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel24240/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '3-1/4 x 4-3/4" (80.5 x 118.5 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '72mm',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '12/17',
+ 'imageSource': 'http://www.sony.com/image/3c7b0e2c406e8c3dd11eb6b974e81af4?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$1,049.99',
+ 'magnification': '0.27x',
+ 'maxFocalLength': '240',
+ 'maxSpeed': '3.5',
+ 'minFocalLength': '24',
+ 'minSpeed': '6.3',
+ 'mount': 'E-mount',
+ 'productName': 'FE 24-240mm F3.5-6.3 OSS',
+ 'sku': 'SEL24240',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel24240',
+ 'weight': '780'}
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel55210> from <GET http://www.sony.com/electronics/camera-lenses/sel55210>
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel2470z/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel2470z)
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel90m28g> from <GET http://www.sony.com/electronics/camera-lenses/sel90m28g>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel20f18g> from <GET http://www.sony.com/electronics/camera-lenses/sel20f18g>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel100f28gm> from <GET http://www.sony.com/electronics/camera-lenses/sel100f28gm>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel35f28z> from <GET http://www.sony.com/electronics/camera-lenses/sel35f28z>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel35f14z> from <GET http://www.sony.com/electronics/camera-lenses/sel35f14z>
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel1224g/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '3-1/2" x 4-5/8" (87 x 117.4 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '- (not attachable)',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '13–17',
+ 'imageSource': 'http://www.sony.com/image/0cf5566dae8978ef89e6a9021e93c50d?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$1,774.99',
+ 'magnification': '0.14',
+ 'maxFocalLength': '24',
+ 'maxSpeed': '4',
+ 'minFocalLength': '12',
+ 'minSpeed': '4',
+ 'mount': 'E-mount',
+ 'productName': 'FE 12-24mm F4 G',
+ 'sku': 'SEL1224G',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel1224g',
+ 'weight': '565'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel18200le> (referer: None)
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel1018> from <GET http://www.sony.com/electronics/camera-lenses/sel1018>
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel1635z/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel1635z)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel35f18/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel35f18)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel55f18z> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel1224gm/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel1224gm)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel1855/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel1855)
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel2470z/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '2-7/8 x 3-3/4" (73 x 94.5 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '67mm',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '10/12',
+ 'imageSource': 'http://www.sony.com/image/81b165862cb6599169bb5f47d426cd26?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$899.99',
+ 'magnification': '0.20x',
+ 'maxFocalLength': '70',
+ 'maxSpeed': '4',
+ 'minFocalLength': '24',
+ 'minSpeed': '4',
+ 'mount': 'E-mount',
+ 'productName': 'VARIO-TESSAR T* FE 24–70 MM F4 ZA OSS',
+ 'sku': 'SEL2470Z',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel2470z',
+ 'weight': '426'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel55210> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel100f28gm> (referer: None)
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel1635z/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '3 1/8" x 4" (78 x 98.5 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '72mm',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '10/12',
+ 'imageSource': 'http://www.sony.com/image/e18ba6034d2e8cf52e09470d304a9708?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$1,349.99',
+ 'magnification': '0.19x',
+ 'maxFocalLength': '35',
+ 'maxSpeed': '4',
+ 'minFocalLength': '16',
+ 'minSpeed': '4',
+ 'mount': 'E-mount',
+ 'productName': 'VARIO-TESSAR T* FE 16-35\xa0mm F4 ZA OSS',
+ 'sku': 'SEL1635Z',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel1635z',
+ 'weight': '518'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel35f28z> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel18200/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel18200)
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel35f18/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '2-1/2 x 1-13/16" (63 x 45 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '49 mm',
+ 'fullFrame': 'APS-C',
+ 'groupsElements': '6/8',
+ 'imageSource': 'http://www.sony.com/image/8c642ec35fdbdc1ce935e7dd60ca25f4?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$474.99',
+ 'magnification': '0.15x',
+ 'maxFocalLength': '35',
+ 'maxSpeed': '1.8',
+ 'minFocalLength': '35',
+ 'minSpeed': '1.8',
+ 'mount': 'E-mount',
+ 'productName': 'E 35 MM F1.8 OSS',
+ 'sku': 'SEL35F18',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel35f18',
+ 'weight': '154'}
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel1224gm/specifications>
+{'apertureBlades': '9',
+ 'dimensions': '3.875 x 5.5 in (97.6 x 137 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '-',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '14-17',
+ 'imageSource': 'http://www.sony.com/image/feaf2c64304b4f727fe909bbc799e830?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$2,999.99',
+ 'magnification': '0.14',
+ 'maxFocalLength': '24',
+ 'maxSpeed': '2.8',
+ 'minFocalLength': '12',
+ 'minSpeed': '2.8',
+ 'mount': 'E-mount',
+ 'productName': 'FE 12–24 mm F2.8 GM',
+ 'sku': 'SEL1224GM',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel1224gm',
+ 'weight': '847'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel70300g/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel70300g)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel35f14z> (referer: None)
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel1670z> from <GET http://www.sony.com/electronics/camera-lenses/sel1670z>
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel1018> (referer: None)
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel1855/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '2-1/2 x 2-3/8" (62 x 60 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '49 mm',
+ 'fullFrame': 'APS-C',
+ 'groupsElements': '9/11',
+ 'imageSource': 'http://www.sony.com/image/148fc1a918449009e398bcbb898402c0?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$299.99',
+ 'magnification': '0.3 x',
+ 'maxFocalLength': '55',
+ 'maxSpeed': '3.5',
+ 'minFocalLength': '18',
+ 'minSpeed': '5.6',
+ 'mount': 'E-mount',
+ 'productName': 'E 18–55 MM F3.5–5.6 OSS',
+ 'sku': 'SEL1855',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel1855',
+ 'weight': '194'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/selp28135g> (referer: None)
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel200600g> from <GET http://www.sony.com/electronics/camera-lenses/sel200600g>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/selp18105g> from <GET http://www.sony.com/electronics/camera-lenses/selp18105g>
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel18200/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '75.5 x 99 mm (3 x 4")',
+ 'focus': 'AF',
+ 'frontFilter': '67mm',
+ 'fullFrame': 'APS-C',
+ 'groupsElements': '12/17',
+ 'imageSource': 'http://www.sony.com/image/df785351f838a3a52464ed54262ee817?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$899.99',
+ 'magnification': '0.35 x',
+ 'maxFocalLength': '200',
+ 'maxSpeed': '3.5',
+ 'minFocalLength': '18',
+ 'minSpeed': '6.3',
+ 'mount': 'E-mount',
+ 'productName': 'E 18–200 mm F3.5-6.3 OSS',
+ 'sku': 'SEL18200',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel18200',
+ 'weight': '524'}
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel100400gm> from <GET http://www.sony.com/electronics/camera-lenses/sel100400gm>
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel70300g/specifications>
+{'apertureBlades': '9',
+ 'dimensions': '3 3/8 x 5 3/4" (84 x 143.5 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '72 mm',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '13/16',
+ 'imageSource': 'http://www.sony.com/image/a3f92abddf1359639244cb403b918402?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$1,274.99',
+ 'magnification': '0.31 x',
+ 'maxFocalLength': '300',
+ 'maxSpeed': '4.5',
+ 'minFocalLength': '70',
+ 'minSpeed': '5.6',
+ 'mount': 'E-mount',
+ 'productName': 'FE 70-300MM F4.5-5.6 G OSS',
+ 'sku': 'SEL70300G',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel70300g',
+ 'weight': '854'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel18200le/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel18200le)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel90m28g> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel20f18g> (referer: None)
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel1635gm> from <GET http://www.sony.com/electronics/camera-lenses/sel1635gm>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/selp18110g> from <GET http://www.sony.com/electronics/camera-lenses/selp18110g>
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel24f14gm/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel24f14gm)
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel50m28> from <GET http://www.sony.com/electronics/camera-lenses/sel50m28>
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/selp18200> (referer: None)
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel18135> from <GET http://www.sony.com/electronics/camera-lenses/sel18135>
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel1670z> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel55f18z/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel55f18z)
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel18200le/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '2-3/4 x 3-7/8" (68 x 97.1 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '62 mm',
+ 'fullFrame': 'APS-C',
+ 'groupsElements': '13/17',
+ 'imageSource': 'http://www.sony.com/image/a2eb78be1077f22896d93249f2c459d6?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$849.99',
+ 'magnification': '0.27x',
+ 'maxFocalLength': '200',
+ 'maxSpeed': '3.5',
+ 'minFocalLength': '18',
+ 'minSpeed': '6.3',
+ 'mount': 'E-mount',
+ 'productName': 'E 18–200 MM F3.5–6.3 OSS LE',
+ 'sku': 'SEL18200LE',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel18200l',
+ 'weight': '460'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel200600g> (referer: None)
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel50f18f> from <GET http://www.sony.com/electronics/camera-lenses/sel50f18f>
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel100f28gm/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel100f28gm)
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel85f18> from <GET http://www.sony.com/electronics/camera-lenses/sel85f18>
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel55210/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel55210)
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel24f14gm/specifications>
+{'apertureBlades': '11',
+ 'dimensions': '3" x 3 3/4" (75.4 x 92.4 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '67',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '10–13',
+ 'imageSource': 'http://www.sony.com/image/80788f057cb7f8e5c52d5db0f4d65d5f?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$1,399.99',
+ 'magnification': '0.17',
+ 'maxFocalLength': '24',
+ 'maxSpeed': '1.4',
+ 'minFocalLength': '24',
+ 'minSpeed': '1.4',
+ 'mount': 'E-mount',
+ 'productName': 'FE 24mm F1.4 GM',
+ 'sku': 'SEL24F14GM',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel24f14gm',
+ 'weight': '445'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel50m28> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/selp18110g> (referer: None)
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel55f18z/specifications>
+{'apertureBlades': '9',
+ 'dimensions': '2-5/8 x 2-7/8" (64.4 x 70.5 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '49 mm',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '5/7',
+ 'imageSource': 'http://www.sony.com/image/863459f927ed7fc5db3d314b79873b94?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$999.99',
+ 'magnification': '0.14x',
+ 'maxFocalLength': '55',
+ 'maxSpeed': '1.8',
+ 'minFocalLength': '55',
+ 'minSpeed': '1.8',
+ 'mount': 'E-mount',
+ 'productName': 'SONNAR® T* FE 55 MM F1.8 ZA',
+ 'sku': 'SEL55F18Z',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel55f18z',
+ 'weight': '281'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel1635gm> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/selp28135g/specifications> (referer: https://www.sony.com/electronics/camera-lenses/selp28135g)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel35f28z/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel35f28z)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel18135> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel1018/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel1018)
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel100f28gm/specifications>
+{'apertureBlades': '11',
+ 'dimensions': '3 3/8 x 4 3/4" (85.2 x 118.1 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '72',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '10–13 *excluding APD element',
+ 'imageSource': 'http://www.sony.com/image/4735b0e2bb7d2257c6a63231f5f8ba70?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$1,499.99',
+ 'magnification': '0.14 (at "0.85 m–∞" position); 0.25 (at "0.57 m–1.0 m" '
+                  'position)',
+ 'maxFocalLength': '100',
+ 'maxSpeed': '2.8',
+ 'minFocalLength': '100',
+ 'minSpeed': '5.6',
+ 'mount': 'E-mount',
+ 'productName': 'FE 100mm F2.8 STF GM OSS',
+ 'sku': 'SEL100F28GM',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel100f28gm',
+ 'weight': '700'}
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel55210/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '2-5/8 x 4-3/8" (63.8 x 108 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '49 mm',
+ 'fullFrame': 'APS-C',
+ 'groupsElements': '9/13',
+ 'imageSource': 'http://www.sony.com/image/459e41908d0a9cb63cf14fface28951a?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$349.99',
+ 'magnification': '0.225x',
+ 'maxFocalLength': '210',
+ 'maxSpeed': '4.5',
+ 'minFocalLength': '55',
+ 'minSpeed': '6.3',
+ 'mount': 'E-mount',
+ 'productName': 'E 55–210MM F4.5–6.3 OSS',
+ 'sku': 'SEL55210',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel55210',
+ 'weight': '345'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel50f18f> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel90m28g/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel90m28g)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel35f14z/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel35f14z)
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel2470gm> from <GET http://www.sony.com/electronics/camera-lenses/sel2470gm>
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/selp18105g> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel100400gm> (referer: None)
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel400f28gm> from <GET http://www.sony.com/electronics/camera-lenses/sel400f28gm>
+DEBUG:scrapy.downloadermiddlewares.redirect:Redirecting (301) to <GET https://www.sony.com/electronics/camera-lenses/sel70200g> from <GET http://www.sony.com/electronics/camera-lenses/sel70200g>
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel20f18g/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel20f18g)
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/selp28135g/specifications>
+{'apertureBlades': '9',
+ 'dimensions': '4 x 6-1/2" (105 x 162.5 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '95mm',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '12/18',
+ 'imageSource': 'http://www.sony.com/image/d78a61fc09c080714307d86450294d35?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$2,499.99',
+ 'magnification': '0.15x',
+ 'maxFocalLength': '135',
+ 'maxSpeed': '4',
+ 'minFocalLength': '28',
+ 'minSpeed': '4',
+ 'mount': 'E-mount',
+ 'productName': 'FE PZ 28-135mm F4 G OSS',
+ 'sku': 'SELP28135G',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/selp28135g',
+ 'weight': '215'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel1670z/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel1670z)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel200600g/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel200600g)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/selp18200/specifications> (referer: https://www.sony.com/electronics/camera-lenses/selp18200)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel85f18> (referer: None)
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel35f28z/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '2-1/2 x 1-7/16" (61.5 x 36.5 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '49 mm',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '5/7',
+ 'imageSource': 'http://www.sony.com/image/34da94e2c145e045d9ee82f5c0771efc?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$799.99',
+ 'magnification': '0.12x',
+ 'maxFocalLength': '35',
+ 'maxSpeed': '2.8',
+ 'minFocalLength': '35',
+ 'minSpeed': '2.8',
+ 'mount': 'E-mount',
+ 'productName': 'SONNAR® T* FE 35 MM F2.8 ZA',
+ 'sku': 'SEL35F28Z',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel35f28z',
+ 'weight': '120'}
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel1018/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '2-7/8 x 2-1/2" (70.0 x 63.5 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '62 mm',
+ 'fullFrame': 'APS-C',
+ 'groupsElements': '8/10',
+ 'imageSource': 'http://www.sony.com/image/9e40898f01166940df83c9dc02078b74?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$899.99',
+ 'magnification': '0.1x',
+ 'maxFocalLength': '18',
+ 'maxSpeed': '4',
+ 'minFocalLength': '10',
+ 'minSpeed': '4',
+ 'mount': 'E-mount',
+ 'productName': 'E 10-18 MM F4 OSS',
+ 'sku': 'SEL1018',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel1018',
+ 'weight': '225'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel2470gm> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel70200g> (referer: None)
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel90m28g/specifications>
+{'apertureBlades': '9',
+ 'dimensions': '3-1/8 x 5-1/4" (79 x 130.5 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '62 mm',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '11/15',
+ 'imageSource': 'http://www.sony.com/image/cb77677897b3220ef7af39a16c92ca0d?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$1,099.99',
+ 'magnification': '1.0x',
+ 'maxFocalLength': '90',
+ 'maxSpeed': '2.8',
+ 'minFocalLength': '90',
+ 'minSpeed': '2.8',
+ 'mount': 'E-mount',
+ 'productName': 'FE 90 mm F2.8 MACRO G OSS',
+ 'sku': 'SEL90M28G',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel90m28g',
+ 'weight': '602'}
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel35f14z/specifications>
+{'apertureBlades': '9',
+ 'dimensions': '3-1/8 x 4-1/2" (78.5 x 112.0 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '72mm',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '8/12',
+ 'imageSource': 'http://www.sony.com/image/d7dd10240e9386b810292e56106b98e9?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$1,599.99',
+ 'magnification': '0.18x',
+ 'maxFocalLength': '35',
+ 'maxSpeed': '1.4',
+ 'minFocalLength': '35',
+ 'minSpeed': '1.4',
+ 'mount': 'E-mount',
+ 'productName': 'DISTAGON T* FE 35 MM F1.4 ZA',
+ 'sku': 'SEL35F14Z',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel35f14z',
+ 'weight': '630'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel400f28gm> (referer: None)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel1635gm/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel1635gm)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel18135/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel18135)
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel20f18g/specifications>
+{'apertureBlades': '9',
+ 'dimensions': '3 x 3-3/8 in (73.5 x 84.7 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '67',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '12-14',
+ 'imageSource': 'http://www.sony.com/image/5644db5dd0891fd98328a52d1eebb283?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$899.99',
+ 'magnification': '0.20 (AF), 0.22 (MF)',
+ 'maxFocalLength': '20',
+ 'maxSpeed': '1.8',
+ 'minFocalLength': '20',
+ 'minSpeed': '1.8',
+ 'mount': 'E-mount',
+ 'productName': 'FE 20 MM F1.8 G',
+ 'sku': 'SEL20F18G',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel20f18g',
+ 'weight': '373'}
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel1670z/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '2-5/8 x 3" (66.6 x 75 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '55 mm',
+ 'fullFrame': 'APS-C',
+ 'groupsElements': '12/16',
+ 'imageSource': 'http://www.sony.com/image/2428fa99112b37a608101ff30e9a45ba?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$999.99',
+ 'magnification': '0.23x',
+ 'maxFocalLength': '70',
+ 'maxSpeed': '4',
+ 'minFocalLength': '16',
+ 'minSpeed': '4',
+ 'mount': 'E-mount',
+ 'productName': 'VARIO-TESSAR T* E 16–70 mm F4 ZA OSS',
+ 'sku': 'SEL1670Z',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel1670z',
+ 'weight': '308'}
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel200600g/specifications>
+{'apertureBlades': '11',
+ 'dimensions': '4 1/2" x 12 5/8" (111.5 x 318 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '95',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '17–24',
+ 'imageSource': 'http://www.sony.com/image/aa4c806667bb613cd7fbc9fa6ed7c6a3?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$1,999.99',
+ 'magnification': '0.2',
+ 'maxFocalLength': '600',
+ 'maxSpeed': '5.6',
+ 'minFocalLength': '200',
+ 'minSpeed': '6.3',
+ 'mount': 'E-mount',
+ 'productName': 'FE 200–600 MM F5.6–6.3 G OSS',
+ 'sku': 'SEL200600G',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel200600g',
+ 'weight': '115'}
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/selp18200/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '3-3/4 x 4" (93.2 x 99 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '67mm',
+ 'fullFrame': 'APS-C',
+ 'groupsElements': '12/17',
+ 'imageSource': 'http://www.sony.com/image/f14a508331fea18154fdc1060222617d?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$1,199.99',
+ 'magnification': '0.35x',
+ 'maxFocalLength': '200',
+ 'maxSpeed': '3.5',
+ 'minFocalLength': '18',
+ 'minSpeed': '6.3',
+ 'mount': 'E-mount',
+ 'productName': 'E PZ 18–200 MM F3.5–6.3 OSS',
+ 'sku': 'SELP18200',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/selp18200',
+ 'weight': '649'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/selp18105g/specifications> (referer: https://www.sony.com/electronics/camera-lenses/selp18105g)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel50f18f/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel50f18f)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/selp18110g/specifications> (referer: https://www.sony.com/electronics/camera-lenses/selp18110g)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel50m28/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel50m28)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel100400gm/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel100400gm)
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel1635gm/specifications>
+{'apertureBlades': '11',
+ 'dimensions': '3-1/2" x 4-7/8" (88.5 x 121.6 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '82',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '13–16',
+ 'imageSource': 'http://www.sony.com/image/3afe3bfc05dd77ae4005f46992c27fff?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$2,199.99',
+ 'magnification': '0.19',
+ 'maxFocalLength': '35',
+ 'maxSpeed': '2.8',
+ 'minFocalLength': '16',
+ 'minSpeed': '2.8',
+ 'mount': 'E-mount',
+ 'productName': 'FE 16-35mm F2.8 GM',
+ 'sku': 'SEL1635GM',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel1635gm',
+ 'weight': '680'}
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel18135/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '67.2 x 88 mm (2-3/4 x 3-1/2 ")',
+ 'focus': 'AF',
+ 'frontFilter': '55',
+ 'fullFrame': 'APS-C',
+ 'groupsElements': '12–16',
+ 'imageSource': 'http://www.sony.com/image/b870509690826bf7a3579e44ad891de6?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$649.99',
+ 'magnification': '0 29',
+ 'maxFocalLength': '135',
+ 'maxSpeed': '3.5',
+ 'minFocalLength': '18',
+ 'minSpeed': '5.6',
+ 'mount': 'E-mount',
+ 'productName': 'E 18-135mm F3.5-5.6 OSS',
+ 'sku': 'SEL18135',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel18135',
+ 'weight': '325'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel85f18/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel85f18)
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel70200g/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel70200g)
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/selp18105g/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '3-1/8 x 4-3/8" (78 x 110 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '72mm',
+ 'fullFrame': 'APS-C',
+ 'groupsElements': '12/16',
+ 'imageSource': 'http://www.sony.com/image/ec59e1b6e12da4d516847d899060c64c?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$649.99',
+ 'magnification': '0.11x',
+ 'maxFocalLength': '105',
+ 'maxSpeed': '4',
+ 'minFocalLength': '18',
+ 'minSpeed': '4',
+ 'mount': 'E-mount',
+ 'productName': 'E PZ 18–105 MM F4 G OSS',
+ 'sku': 'SELP18105G',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/selp18105g',
+ 'weight': '427'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel2470gm/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel2470gm)
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel50f18f/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '2 3/4 x 2 3/8" (68.6 x 59.5 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '49 mm',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '5/6',
+ 'imageSource': 'http://www.sony.com/image/d73e403f0e0c4d8980c9bf457b0faef8?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$249.99',
+ 'magnification': '0.14 x',
+ 'maxFocalLength': '50',
+ 'maxSpeed': '1.8',
+ 'minFocalLength': '50',
+ 'minSpeed': '1.8',
+ 'mount': 'E-mount',
+ 'productName': 'FE 50MM F1.8',
+ 'sku': 'SEL50F18F',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel50f18',
+ 'weight': '186'}
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/selp18110g/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '4 3/8 x 6 5/8 in (110 x 167.5 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '95',
+ 'fullFrame': 'APS-C',
+ 'groupsElements': '15–18',
+ 'imageSource': 'http://www.sony.com/image/e015334abcda785202e0e7977b4c4c75?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$3,649.99',
+ 'magnification': '0.122',
+ 'maxFocalLength': '110',
+ 'maxSpeed': '4',
+ 'minFocalLength': '18',
+ 'minSpeed': '4',
+ 'mount': 'E-mount',
+ 'productName': 'E PZ 18–110 mm F4 G OSS',
+ 'sku': 'SELP18110G',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/selp18110g',
+ 'weight': '105'}
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel50m28/specifications>
+{'apertureBlades': '7',
+ 'dimensions': '2 7/8 x 2 7/8 inches (70.8 x 71 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '55',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '7-8',
+ 'imageSource': 'http://www.sony.com/image/1de78b5afb4de6164ee23c6ed43d0d99?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$549.99',
+ 'magnification': '1',
+ 'maxFocalLength': '50',
+ 'maxSpeed': '2.8',
+ 'minFocalLength': '50',
+ 'minSpeed': '2.8',
+ 'mount': 'E-mount',
+ 'productName': 'FE 50 MM F2.8 MACRO',
+ 'sku': 'SEL50M28',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel50m28',
+ 'weight': '236'}
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel100400gm/specifications>
+{'apertureBlades': '9',
+ 'dimensions': '3-3/4 x 8-1/8" (93.9 x 205 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '77',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '16-22',
+ 'imageSource': 'http://www.sony.com/image/515803876447b59098fbca121eacf9fa?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$2,499.99',
+ 'magnification': '0.35',
+ 'maxFocalLength': '400',
+ 'maxSpeed': '4.5',
+ 'minFocalLength': '100',
+ 'minSpeed': '5.6',
+ 'mount': 'E-mount',
+ 'productName': 'FE 100–400 MM G MASTER SUPER-TELEPHOTO ZOOM LENS',
+ 'sku': 'SEL100400GM',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel100400gm',
+ 'weight': '395'}
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel85f18/specifications>
+{'apertureBlades': '9',
+ 'dimensions': '3 1/8 x 3 1/4" (78 x 82 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '67',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '8-9',
+ 'imageSource': 'http://www.sony.com/image/c0f04316bc61cb587fb6c7606e564c52?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$599.99',
+ 'magnification': '0.13',
+ 'maxFocalLength': '85',
+ 'maxSpeed': '1.8',
+ 'minFocalLength': '85',
+ 'minSpeed': '1.8',
+ 'mount': 'E-mount',
+ 'productName': 'FE 85mm F1.8',
+ 'sku': 'SEL85F18',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel85f18',
+ 'weight': '371'}
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel70200g/specifications>
+{'apertureBlades': '9',
+ 'dimensions': '3 1/4" x 7" (80 x 175 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '72mm',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '15/21',
+ 'imageSource': 'http://www.sony.com/image/077bf0ed281f8c6f3f8c4fd46d614cfd?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$1,499.99',
+ 'magnification': '0.13x',
+ 'maxFocalLength': '200',
+ 'maxSpeed': '4',
+ 'minFocalLength': '70',
+ 'minSpeed': '4',
+ 'mount': 'E-mount',
+ 'productName': 'FE 70-200 MM F4 G OSS',
+ 'sku': 'SEL70200G',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel70200g',
+ 'weight': '840'}
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel2470gm/specifications>
+{'apertureBlades': '9',
+ 'dimensions': '87.6 x 136 mm',
+ 'focus': 'AF',
+ 'frontFilter': '82 mm',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '13/18',
+ 'imageSource': 'http://www.sony.com/image/e648cced002ba9b3478f98dfbf1a858a?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$2,199.99',
+ 'magnification': '0.24 x',
+ 'maxFocalLength': '70',
+ 'maxSpeed': '2.8',
+ 'minFocalLength': '24',
+ 'minSpeed': '2.8',
+ 'mount': 'E-mount',
+ 'productName': 'FE 24-70 mm F2.8 GM',
+ 'sku': 'SEL2470GM',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel2470gm',
+ 'weight': '31.25 oz'}
+DEBUG:scrapy.core.engine:Crawled (200) <GET https://www.sony.com/electronics/camera-lenses/sel400f28gm/specifications> (referer: https://www.sony.com/electronics/camera-lenses/sel400f28gm)
+DEBUG:scrapy.core.scraper:Scraped from <200 https://www.sony.com/electronics/camera-lenses/sel400f28gm/specifications>
+{'apertureBlades': '11',
+ 'dimensions': '6-1/4 x 14-1/4" (158.1 x 359 mm)',
+ 'focus': 'AF',
+ 'frontFilter': '40.5 (slot-in)',
+ 'fullFrame': '35 mm full frame',
+ 'groupsElements': '17-23 *Including one filter',
+ 'imageSource': 'http://www.sony.com/image/aea608d6f89bfb7c04b81e4d437e64d2?fmt=pjpeg&wid=1014&hei=396&bgcolor=F1F5F9&bgc=F1F5F9',
+ 'listPrice': '$11,999.99',
+ 'magnification': '0.16',
+ 'maxFocalLength': '400',
+ 'maxSpeed': '2.8',
+ 'minFocalLength': '400',
+ 'minSpeed': '2.8',
+ 'mount': 'E-mount',
+ 'productName': 'FE 400 MM F2.8 GM OSS',
+ 'sku': 'SEL400F28GM',
+ 'source': 'https://www.sony.com/electronics/camera-lenses/sel400f28gm',
+ 'weight': '895'}
+INFO:scrapy.core.engine:Closing spider (finished)
+INFO:scrapy.extensions.feedexport:Stored json feed (52 items) in: sonyItems.json
+INFO:scrapy.statscollectors:Dumping Scrapy stats:
+{'downloader/request_bytes': 202442,
+ 'downloader/request_count': 158,
+ 'downloader/request_method_count/GET': 158,
+ 'downloader/response_bytes': 2833840,
+ 'downloader/response_count': 158,
+ 'downloader/response_status_count/200': 106,
+ 'downloader/response_status_count/301': 52,
+ 'elapsed_time_seconds': 3.456224,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2020, 10, 23, 2, 35, 24, 69897),
+ 'item_scraped_count': 52,
+ 'log_count/DEBUG': 210,
+ 'log_count/INFO': 11,
+ 'memusage/max': 51642368,
+ 'memusage/startup': 51642368,
+ 'request_depth_max': 2,
+ 'response_received_count': 106,
+ 'robotstxt/request_count': 1,
+ 'robotstxt/response_count': 1,
+ 'robotstxt/response_status_count/200': 1,
+ 'scheduler/dequeued': 157,
+ 'scheduler/dequeued/memory': 157,
+ 'scheduler/enqueued': 157,
+ 'scheduler/enqueued/memory': 157,
+ 'start_time': datetime.datetime(2020, 10, 23, 2, 35, 20, 613673)}
+INFO:scrapy.core.engine:Spider closed (finished)
