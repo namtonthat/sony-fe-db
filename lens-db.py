@@ -163,7 +163,7 @@ def parse_lens_link(lens_link: str, lens_name: str) -> pl.DataFrame:
             lens_feature[feature_key] = feature_value
 
     # overwrite lens name with the one found from index page (properly titled)
-    lens['original_name'] = lens_name
+    lens_feature['original_name'] = lens_name
     lens = Lens(**lens_feature)
 
     df = pl.from_dict(lens.__dict__)
