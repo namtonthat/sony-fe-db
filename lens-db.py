@@ -146,7 +146,7 @@ def clean_str_list(text: str) -> str:
     return ' '.join(cleaned_texts).strip().strip(":")
 
 
-def parse_lens_link(lens_link: str) -> pl.DataFrame:
+def parse_lens_link(lens_link: str, lens_name: str) -> pl.DataFrame:
     page = requests.get(lens_link)
     soup = BeautifulSoup(page.content, 'html.parser')
     features = soup.find_all('td')
@@ -162,6 +162,8 @@ def parse_lens_link(lens_link: str) -> pl.DataFrame:
             feature_key = camel_to_snake(feature)
             lens_feature[feature_key] = feature_value
 
+    # overwrite lens name with the one found from index page (properly titled)
+    lens['original_name'] = lens_name
     lens = Lens(**lens_feature)
 
     df = pl.from_dict(lens.__dict__)
@@ -197,10 +199,11 @@ if __name__ == "__main__":
 
     df_lenses = pl.DataFrame({})
     for lens in lenses:
-        logging.info('creating lens data for %s', lens.get('name'))
-        logging.info('link: %s', lens.get('link'))
+        name = lens.get('name')
         link = lens.get('link')
-        df_lens = parse_lens_link(lens_link = link)
+        logging.info('creating lens data for %s', name)
+        logging.info('link: %s', link)
+        df_lens = parse_lens_link(lens_link = link, lens_name= name)
         df_lenses = pl.concat([df_lenses, df_lens], how='vertical')
 
     df_lenses.to_pandas().to_parquet('outputs/lens.parquet')
