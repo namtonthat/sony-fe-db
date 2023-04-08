@@ -4,7 +4,9 @@ specs:
   - Original name
   - System
   - Speed
+  - Speed range
   - Focal length
+  - Focal length range
   - Lens construction
   - Focusing modes
   - Number of blades

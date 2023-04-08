@@ -5,14 +5,15 @@ import yaml
 import re
 import logging
 from typing import List, Optional, Any
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+
+logging.basicConfig(level=logging.INFO)
 
 # global variables
 RE_WHITE_SPACE = "\W+"
+RE_SPEED = r'F/(\d+(?:\.\d+)?)'
+RE_FOCAL = r'(\d+)mm'
 SONY_URL = "https://lens-db.com/system/sony-e/"
-
-
-
 
 @dataclass
 class Lens:
@@ -22,20 +23,25 @@ class Lens:
     maximum_magnification: str
     original_name: str
     production_status: str
-    speed: str
     system: str
     weight: str
-    focal_length: str
     focusing_modes: str
     number_of_blades: Any
 
     # derived fields
-    min_aperture = Optional[float]
-    max_aperture = Optional[float]
-    min_focal_length = Optional[float]
-    max_focal_length = Optional[float]
-    is_prime = Optional[bool]
-    is_zoom = Optional[bool]
+    min_aperture: float = field(init=False)
+    max_aperture: float = field(init=False)
+    min_focal_length: float = field(init=False)
+    max_focal_length: float = field(init=False)
+    is_prime: bool = field(init=False)
+    is_zoom: bool = field(init=False)
+
+    # due to inconsistency between descriptions, have to parse alternative features as well
+    speed: Optional[str] = ""
+    focal_length: Optional[str] = ""
+    speed_range: Optional[str] = ""
+    focal_length_range: Optional[str] = ""
+
 
     def __post_init__(self):
         self.min_aperture, self.max_aperture = self.get_apertures()
@@ -58,29 +64,33 @@ class Lens:
         has_autofocus = "auto" in self.focusing_modes.lower()
         return has_autofocus
 
+
     def get_apertures(self) -> float:
-        apertures = self.speed.strip('F/').split('-')
-        if len(apertures) == 1:
-            min = float(apertures[0])
-            max = float(apertures[0])
+        matches = re.findall(RE_SPEED, self.speed if self.speed != "" else self.speed_range)
+        speed_ranges = [float(match) for match in matches]
+
+        if len(speed_ranges) == 1:
+            min = speed_ranges[0]
+            max = speed_ranges[0]
             self.is_zoom = False
-        elif len(apertures) >= 2:
-            min = float(apertures[0])
-            max = float(apertures[1])
+        elif len(speed_ranges) >= 2:
+            min = speed_ranges[0]
+            max = speed_ranges[1]
             self.is_zoom = True
         else:
             logging.error('Error parsing apertures; none found for %s',self.original_name)
         return (min, max)
 
     def get_focal_lengths(self) -> float:
-        focal_length_nos = self.focal_length.strip('mm').split('-')
-        if len(focal_length_nos) == 1:
-            min = float(focal_length_nos[0])
-            max = float(focal_length_nos[0])
+        matches = re.findall(RE_FOCAL, self.focal_length if self.focal_length != "" else self.focal_length_range)
+        focal_ranges = [int(match) for match in matches]
+        if len(focal_ranges) == 1:
+            min = focal_ranges[0]
+            max = focal_ranges[0]
             self.is_prime = True
-        elif len(focal_length_nos) >= 2:
-            min = float(focal_length_nos[0])
-            max = float(focal_length_nos[1])
+        elif len(focal_ranges) >= 2:
+            min = focal_ranges[0]
+            max = focal_ranges[1]
             self.is_prime = False
         else:
             logging.error('Error parsing focal lengths; none found for %s',self.original_name)
@@ -125,7 +135,6 @@ def clean_str_list(text: str) -> str:
     for split_text in split_texts:
         test_string = split_text.strip()
         is_white_space = re.match(RE_WHITE_SPACE, test_string)
-        print(is_white_space)
         if is_white_space:
             pass
         else:
@@ -150,7 +159,9 @@ def parse_lens_link(lens_link: str) -> pl.DataFrame:
             feature_key = camel_to_snake(feature)
             lens_feature[feature_key] = feature_value
 
-    df = pl.from_dict(Lens(**lens_feature).__dict__)
+    lens = Lens(**lens_feature)
+
+    df = pl.from_dict(lens.__dict__)
     return df
 
 
@@ -163,11 +174,10 @@ if __name__ == "__main__":
     page = requests.get(SONY_URL)
     soup = BeautifulSoup(page.content, 'html.parser')
 
-    logging.info('saving information from %s', SONY_URL)
-    with open('source/sony-lens.html', 'w') as f:
-        f.write(soup.prettify())
-        f.close
-
+    # logging.info('saving information from %s', SONY_URL)
+    # with open('source/sony-lens.html', 'w') as f:
+    #     f.write(soup.prettify())
+    #     f.close
 
     system_lenses = soup.find_all("td", {"class": "uk-table-expand"})
 
@@ -184,8 +194,10 @@ if __name__ == "__main__":
 
     df_lenses = pl.DataFrame({})
     for lens in lenses:
+        logging.info('creating lens data for %s', lens.get('name'))
+        logging.info('link: %s', lens.get('link'))
         link = lens.get('link')
         df_lens = parse_lens_link(lens_link = link)
-        pl.concat([df_lenses, df_lens], how='vertical')
+        df_lenses = pl.concat([df_lenses, df_lens], how='vertical')
 
-
+    df_lenses.to_pandas().to_parquet('outputs/lens.parquet')
