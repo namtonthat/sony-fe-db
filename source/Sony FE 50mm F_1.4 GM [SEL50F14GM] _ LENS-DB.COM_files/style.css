@@ -1,0 +1,112 @@
+/*
+Theme Name: lensdb
+Description: LENS-DB.COM Website Theme
+Author: Evgeny Artemov
+Author URI: none
+Theme URI: none
+Version: 1.0
+*/
+
+.monospace > span {
+  display: inline-block; 		/* Enable widths */
+  width: 11.3px;            	/* Set width across all characters */
+  text-align: center;    		/* Even out spacing */
+  outline: 0px dotted red;
+  font-weight: 300;
+  background-color: none;
+}
+
+.lensdb td {
+	padding: 8px 8px;
+	border: 1px solid #e5e5e5;
+	vertical-align: top;
+}
+
+.lensdb th {
+	padding: 8px 8px;
+	text-align: left;
+  	color: #999;
+  	text-transform: uppercase;	
+}
+
+.lensdb.centered td {
+	text-align: center;
+}
+
+.lensdb.centered th {
+	text-align: center;
+}
+
+.borderless td {
+	border: 0;
+}
+
+.bold-1st-column td:first-child {
+    font-weight: bold;
+}
+
+.red-1st-column td:first-child {
+    color: red;
+}
+
+.red-3rd-column td:nth-child(3) {
+    color: red;
+}
+
+.almost_borderless td {
+	border-top: 0;
+	border-bottom: 0;
+}
+
+.almost_borderless td:first-child {
+    border-left: 0 !important;
+    padding-right: 20px;
+}
+
+.almost_borderless td:nth-child(2) {
+    padding-left: 20px;
+}
+
+.almost_borderless td:last-child {
+    border-right: 0 !important;
+}
+
+.class_for_toggle {
+	text-decoration: line-through;
+	text-decoration-color: red;
+	text-decoration-thickness: 2px;
+}
+
+.formatted-text {
+	text-indent: 25px; 
+	text-align: justify; 
+	margin-top: 15px; 
+	margin-bottom: 15px;
+}
+
+div.formatted-text p, div.formatted-text ul, div.formatted-text ol {
+	margin-top: 5px; 
+	margin-bottom: 10px; 
+}
+
+div.formatted-text ul, div.formatted-text ol {
+	padding-left: 40px;
+}
+
+div.formatted-text li {
+	text-indent: 0px;
+	margin-top: 5px; 
+	margin-bottom: 10px;	
+}
+
+div.formatted-text h1, div.formatted-text h2, div.formatted-text h3, div.formatted-text h4, div.formatted-text h5, div.formatted-text h6 {
+	text-indent: 0px;
+	text-align: left; 
+}
+
+div.formatted-text > table > tbody > tr > td {
+	text-indent: 0px !important;
+	text-align: inherit !important;
+	margin-top: inherit !important; 
+	margin-bottom: inherit !important;	
+}

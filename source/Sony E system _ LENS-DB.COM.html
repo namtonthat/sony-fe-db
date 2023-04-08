@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<!-- saved from url=(0034)https://lens-db.com/system/sony-e/ -->
+<html prefix="og: http://ogp.me/ns#" lang="en" itemscope="" itemtype="http://schema.org/CollectionPage"><script>
+    window[Symbol.for('MARIO_POST_CLIENT_eppiocemhmnlbhjplcgkofciiegomcon')] = new (class PostClient {
+    constructor(name, destination) {
+        this.name = name;
+        this.destination = destination;
+        this.serverListeners = {};
+        this.bgRequestsListeners = {};
+        this.bgEventsListeners = {};
+        window.addEventListener('message', (message) => {
+            const data = message.data;
+            const isNotForMe = !(data.destination && data.destination === this.name);
+            const hasNotEventProp = !data.event;
+            if (isNotForMe || hasNotEventProp) {
+                return;
+            }
+            if (data.event === 'MARIO_POST_SERVER__BG_RESPONSE') {
+                const response = data.args;
+                if (this.hasBgRequestListener(response.requestId)) {
+                    try {
+                        this.bgRequestsListeners[response.requestId](response.response);
+                    }
+                    catch (e) {
+                        console.log(e);
+                    }
+                    delete this.bgRequestsListeners[response.requestId];
+                }
+            }
+            else if (data.event === 'MARIO_POST_SERVER__BG_EVENT') {
+                const response = data.args;
+                if (this.hasBgEventListener(response.event)) {
+                    try {
+                        this.bgEventsListeners[data.id](response.payload);
+                    }
+                    catch (e) {
+                        console.log(e);
+                    }
+                }
+            }
+            else if (this.hasServerListener(data.event)) {
+                try {
+                    this.serverListeners[data.event](data.args);
+                }
+                catch (e) {
+                    console.log(e);
+                }
+            }
+            else {
+                console.log(`event not handled: ${data.event}`);
+            }
+        });
+    }
+    emitToServer(event, args) {
+        const id = this.generateUIID();
+        const message = {
+            args,
+            destination: this.destination,
+            event,
+            id,
+        };
+        window.postMessage(message, location.origin);
+        return id;
+    }
+    emitToBg(bgEventName, args) {
+        const requestId = this.generateUIID();
+        const request = { bgEventName, requestId, args };
+        this.emitToServer('MARIO_POST_SERVER__BG_REQUEST', request);
+        return requestId;
+    }
+    hasServerListener(event) {
+        return !!this.serverListeners[event];
+    }
+    hasBgRequestListener(requestId) {
+        return !!this.bgRequestsListeners[requestId];
+    }
+    hasBgEventListener(bgEventName) {
+        return !!this.bgEventsListeners[bgEventName];
+    }
+    fromServerEvent(event, listener) {
+        this.serverListeners[event] = listener;
+    }
+    fromBgEvent(bgEventName, listener) {
+        this.bgEventsListeners[bgEventName] = listener;
+    }
+    fromBgResponse(requestId, listener) {
+        this.bgRequestsListeners[requestId] = listener;
+    }
+    generateUIID() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+})('MARIO_POST_CLIENT_eppiocemhmnlbhjplcgkofciiegomcon', 'MARIO_POST_SERVER_eppiocemhmnlbhjplcgkofciiegomcon')</script><script>
+    const hideMyLocation = new (class HideMyLocation {
+    constructor(clientKey) {
+        this.clientKey = clientKey;
+        this.watchIDs = {};
+        this.client = window[Symbol.for(clientKey)];
+        const getCurrentPosition = navigator.geolocation.getCurrentPosition;
+        const watchPosition = navigator.geolocation.watchPosition;
+        const clearWatch = navigator.geolocation.clearWatch;
+        const self = this;
+        navigator.geolocation.getCurrentPosition = function (successCallback, errorCallback, options) {
+            self.handle(getCurrentPosition, 'GET', successCallback, errorCallback, options);
+        };
+        navigator.geolocation.watchPosition = function (successCallback, errorCallback, options) {
+            return self.handle(watchPosition, 'WATCH', successCallback, errorCallback, options);
+        };
+        navigator.geolocation.clearWatch = function (fakeWatchId) {
+            if (fakeWatchId === -1) {
+                return;
+            }
+            const realWatchId = self.watchIDs[fakeWatchId];
+            delete self.watchIDs[fakeWatchId];
+            return clearWatch.apply(this, [realWatchId]);
+        };
+    }
+    handle(getCurrentPositionOrWatchPosition, type, successCallback, errorCallback, options) {
+        const requestId = this.client.emitToBg('HIDE_MY_LOCATION__GET_LOCATION');
+        let fakeWatchId = this.getRandomInt(0, 100000);
+        this.client.fromBgResponse(requestId, (response) => {
+            if (response.enabled) {
+                if (response.status === 'SUCCESS') {
+                    const position = this.map(response);
+                    successCallback(position);
+                }
+                else {
+                    const error = this.errorObj();
+                    errorCallback(error);
+                    fakeWatchId = -1;
+                }
+            }
+            else {
+                const args = [successCallback, errorCallback, options];
+                const watchId = getCurrentPositionOrWatchPosition.apply(navigator.geolocation, args);
+                if (type === 'WATCH') {
+                    this.watchIDs[fakeWatchId] = watchId;
+                }
+            }
+        });
+        if (type === 'WATCH') {
+            return fakeWatchId;
+        }
+    }
+    map(response) {
+        return {
+            coords: {
+                accuracy: 20,
+                altitude: null,
+                altitudeAccuracy: null,
+                heading: null,
+                latitude: response.latitude,
+                longitude: response.longitude,
+                speed: null,
+            },
+            timestamp: Date.now(),
+        };
+    }
+    errorObj() {
+        return {
+            code: 1,
+            message: 'User denied Geolocation',
+        };
+    }
+    getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+})('MARIO_POST_CLIENT_eppiocemhmnlbhjplcgkofciiegomcon')
+  </script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  	
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  	<meta name="robots" content="noarchive">  	
+
+	<link rel="stylesheet" href="./Sony E system _ LENS-DB.COM_files/louis-george-cafe.css">
+
+  	<link rel="stylesheet" href="./Sony E system _ LENS-DB.COM_files/uikit.css">
+	<script src="./Sony E system _ LENS-DB.COM_files/uikit.min.js"></script>
+	<script src="./Sony E system _ LENS-DB.COM_files/uikit-icons.min.js"></script>
+	
+	<link rel="stylesheet" href="./Sony E system _ LENS-DB.COM_files/style.css">	
+  	
+	<link rel="shortcut icon" href="https://lens-db.com/favicon.png">
+	
+<title>Sony E system | LENS-DB.COM</title>
+  
+  
+	<meta property="og:type" content="website">  
+  	<meta property="og:site_name" content="More than just a camera lens database">
+	<meta property="og:title" content="Sony E system">
+	<meta property="og:image" content="https://lens-db.com/wp-content/themes/lensdb/assets/images/thumb.png">
+	<meta property="og:url" content="https://lens-db.com/system/sony-e/">  
+	<meta name="twitter:title" content="Sony E system">
+	<meta name="twitter:image" content="https://lens-db.com/wp-content/themes/lensdb/assets/images/thumb.png">
+    
+  <script>window.koko_analytics = {"url":"https:\/\/lens-db.com\/koko-analytics-collect.php","post_id":118105,"use_cookie":1,"cookie_path":"\/","dnt":true};</script><meta name="robots" content="max-image-preview:large">
+<script type="text/javascript">
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/lens-db.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.2"}};
+/*! This file is auto-generated */
+!function(e,a,t){var n,r,o,i=a.createElement("canvas"),p=i.getContext&&i.getContext("2d");function s(e,t){p.clearRect(0,0,i.width,i.height),p.fillText(e,0,0);e=i.toDataURL();return p.clearRect(0,0,i.width,i.height),p.fillText(t,0,0),e===i.toDataURL()}function c(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(o=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},r=0;r<o.length;r++)t.supports[o[r]]=function(e){if(p&&p.fillText)switch(p.textBaseline="top",p.font="600 32px Arial",e){case"flag":return s("\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!s("\ud83c\uddfa\ud83c\uddf3","\ud83c\uddfa\u200b\ud83c\uddf3")&&!s("\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!s("\ud83e\udef1\ud83c\udffb\u200d\ud83e\udef2\ud83c\udfff","\ud83e\udef1\ud83c\udffb\u200b\ud83e\udef2\ud83c\udfff")}return!1}(o[r]),t.supports.everything=t.supports.everything&&t.supports[o[r]],"flag"!==o[r]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[o[r]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(e=t.source||{}).concatemoji?c(e.concatemoji):e.wpemoji&&e.twemoji&&(c(e.twemoji),c(e.wpemoji)))}(window,document,window._wpemojiSettings);
+</script>
+<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 0.07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel="stylesheet" id="wp-block-library-css" href="./Sony E system _ LENS-DB.COM_files/style.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="classic-theme-styles-css" href="./Sony E system _ LENS-DB.COM_files/classic-themes.min.css" type="text/css" media="all">
+<style id="global-styles-inline-css" type="text/css">
+body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--duotone--dark-grayscale: url('#wp-duotone-dark-grayscale');--wp--preset--duotone--grayscale: url('#wp-duotone-grayscale');--wp--preset--duotone--purple-yellow: url('#wp-duotone-purple-yellow');--wp--preset--duotone--blue-red: url('#wp-duotone-blue-red');--wp--preset--duotone--midnight: url('#wp-duotone-midnight');--wp--preset--duotone--magenta-yellow: url('#wp-duotone-magenta-yellow');--wp--preset--duotone--purple-green: url('#wp-duotone-purple-green');--wp--preset--duotone--blue-orange: url('#wp-duotone-blue-orange');--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}body .is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}body .is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}body .is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}body .is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}body .is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}body .is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}body .is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width: var(--wp--style--global--content-size);margin-left: auto !important;margin-right: auto !important;}body .is-layout-constrained > .alignwide{max-width: var(--wp--style--global--wide-size);}body .is-layout-flex{display: flex;}body .is-layout-flex{flex-wrap: wrap;align-items: center;}body .is-layout-flex > *{margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+.wp-block-navigation a:where(:not(.wp-element-button)){color: inherit;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}
+.wp-block-pullquote{font-size: 1.5em;line-height: 1.6;}
+</style>
+<script type="text/javascript" src="./Sony E system _ LENS-DB.COM_files/jquery.min.js" id="jquery-core-js"></script>
+<script type="text/javascript" src="./Sony E system _ LENS-DB.COM_files/jquery-migrate.min.js" id="jquery-migrate-js"></script>
+<script type="text/javascript" id="antispampro-script-js-extra">
+/* <![CDATA[ */
+var antispampro_vars = {"code":"jeguqi","input_name_suffix":"xaqoxu"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Sony E system _ LENS-DB.COM_files/anti-spam-pro.js" id="antispampro-script-js"></script>
+<script type="text/javascript" id="jquery_watermark-js-extra">
+/* <![CDATA[ */
+var position_change = {"edge":"1"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Sony E system _ LENS-DB.COM_files/watermark.js" id="jquery_watermark-js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://lens-db.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://lens-db.com/wp-includes/wlwmanifest.xml">
+<meta name="generator" content="WordPress 6.2">
+<link rel="canonical" href="https://lens-db.com/system/sony-e/">
+<link rel="shortlink" href="https://lens-db.com/?p=118105">
+<link rel="alternate" type="application/json+oembed" href="https://lens-db.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Flens-db.com%2Fsystem%2Fsony-e%2F">
+<link rel="alternate" type="text/xml+oembed" href="https://lens-db.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Flens-db.com%2Fsystem%2Fsony-e%2F&amp;format=xml">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+<!-- Google tag (gtag.js) -->
+<script async="" src="./Sony E system _ LENS-DB.COM_files/js"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-JN90VL6KWL');
+</script>
+
+<script async="" src="./Sony E system _ LENS-DB.COM_files/f.txt"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-1892119131667195",
+    enable_page_level_ads: true
+  });
+</script>
+
+
+<meta name="verifyownership" content="4b59b64f61caa56d9c05a7c515226035">
+
+<style>
+
+.highlighted { 
+  background: rgb(148,187,233);
+  background: linear-gradient(90deg, rgba(148,187,233,0.40) 0%, rgba(174,215,238,0.20) 100%);  
+  border-radius: 6px;
+  padding: 3px 6px;
+}
+
+.highlighted2 { 
+  background: rgb(148,187,233);
+  background: linear-gradient(90deg, rgba(148,187,233,0.70) 0%, rgba(174,215,238,0.50) 100%);  
+  border-radius: 6px;
+  padding: 3px 6px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+
+		<div id="offcanvas-systems" uk-offcanvas="mode: none; overlay: true" class="uk-offcanvas">
+			<div class="uk-offcanvas-bar">
+				<ul class="uk-nav uk-nav-default">
+					<li class="uk-nav-header">Systems</li><li class="uk-nav-header">A</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/system/asahi-pentax-m42/" title="Asahi Pentax M42 system">Asahi Pentax M42</a></li><li><a href="https://lens-db.com/system/asahiflex-m37/" title="Asahiflex M37 system">Asahiflex M37</a></li><li class="uk-nav-header">B</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/system/bronica-etr/" title="Bronica ETR system">Bronica ETR</a></li><li><a href="https://lens-db.com/system/bronica-gs-1/" title="Bronica GS-1 system">Bronica GS-1</a></li><li><a href="https://lens-db.com/system/bronica-rf645/" title="Bronica RF645 system">Bronica RF645</a></li><li><a href="https://lens-db.com/system/bronica-sq/" title="Bronica SQ system">Bronica SQ</a></li><li class="uk-nav-header">C</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/system/canon-eos/" title="Canon EOS system">Canon EOS</a></li><li><a href="https://lens-db.com/system/canon-eos-aps-c/" title="Canon EOS APS-C system">Canon EOS APS-C</a></li><li><a href="https://lens-db.com/system/canon-eos-m/" title="Canon EOS M system">Canon EOS M</a></li><li><a href="https://lens-db.com/system/canon-eos-r/" title="Canon EOS R system">Canon EOS R</a></li><li><a href="https://lens-db.com/system/canon-eos-r-aps-c/" title="Canon EOS R APS-C system">Canon EOS R APS-C</a></li><li><a href="https://lens-db.com/system/canon-fd/" title="Canon FD system">Canon FD</a></li><li><a href="https://lens-db.com/system/canon-fl/" title="Canon FL system">Canon FL</a></li><li><a href="https://lens-db.com/system/canon-r/" title="Canon R system">Canon R</a></li><li><a href="https://lens-db.com/system/canon-s/" title="Canon S (LSM) system">Canon S (LSM)</a></li><li><a href="https://lens-db.com/system/contarex/" title="Contarex system">Contarex</a></li><li><a href="https://lens-db.com/system/contax/" title="Contax system">Contax</a></li><li><a href="https://lens-db.com/system/contax-yashica/" title="Contax/Yashica system">Contax/Yashica</a></li><li><a href="https://lens-db.com/system/contax-645/" title="Contax 645 system">Contax 645</a></li><li><a href="https://lens-db.com/system/contax-g/" title="Contax G system">Contax G</a></li><li><a href="https://lens-db.com/system/contax-n/" title="Contax N system">Contax N</a></li><li class="uk-nav-header">F</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/system/fujica-m42/" title="Fujica M42 system">Fujica M42</a></li><li><a href="https://lens-db.com/system/fujica-x/" title="Fujica X system">Fujica X</a></li><li><a href="https://lens-db.com/system/fujifilm-g/" title="Fujifilm G system">Fujifilm G</a></li><li><a href="https://lens-db.com/system/fujifilm-x/" title="Fujifilm X system">Fujifilm X</a></li><li><a href="https://lens-db.com/system/fujita-66-kalimar-reflex/" title="Fujita 66 / Kalimar Reflex system">Fujita 66 / Kalimar Reflex</a></li><li class="uk-nav-header">H</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/system/hasselblad-h/" title="Hasselblad H system">Hasselblad H</a></li><li><a href="https://lens-db.com/system/hasselblad-m60x6/" title="Hasselblad M60x6 system">Hasselblad M60x6</a></li><li><a href="https://lens-db.com/system/hasselblad-v/" title="Hasselblad V system">Hasselblad V</a></li><li><a href="https://lens-db.com/system/hasselblad-x/" title="Hasselblad X system">Hasselblad X</a></li><li class="uk-nav-header">I</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/system/icarex/" title="Icarex system">Icarex</a></li><li class="uk-nav-header">K</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/system/konica-ar/" title="Konica AR system">Konica AR</a></li><li><a href="https://lens-db.com/system/konica-f/" title="Konica F system">Konica F</a></li><li><a href="https://lens-db.com/system/konica-minolta-a-aps-c/" title="Konica Minolta A APS-C system">Konica Minolta A APS-C</a></li><li><a href="https://lens-db.com/system/kowa-six/" title="Kowa Six system">Kowa Six</a></li><li class="uk-nav-header">L</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/system/leica-cl/" title="Leica CL system">Leica CL</a></li><li><a href="https://lens-db.com/system/leica-l/" title="Leica L system">Leica L</a></li><li><a href="https://lens-db.com/system/leica-l-aps-c/" title="Leica L APS-C system">Leica L APS-C</a></li><li><a href="https://lens-db.com/system/leica-m/" title="Leica M system">Leica M</a></li><li><a href="https://lens-db.com/system/leica-r/" title="Leica R system">Leica R</a></li><li><a href="https://lens-db.com/system/leica-s/" title="Leica S system">Leica S</a></li><li><a href="https://lens-db.com/system/leica-sm/" title="Leica SM system">Leica SM</a></li><li class="uk-nav-header">M</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/system/mamiya-6/" title="Mamiya 6 system">Mamiya 6</a></li><li><a href="https://lens-db.com/system/mamiya-7/" title="Mamiya 7 system">Mamiya 7</a></li><li><a href="https://lens-db.com/system/mamiya-sekor-cp-m42/" title="Mamiya CP M42 system">Mamiya CP M42</a></li><li><a href="https://lens-db.com/system/mamiya-cs/" title="Mamiya CS system">Mamiya CS</a></li><li><a href="https://lens-db.com/system/mamiya-e/" title="Mamiya E system">Mamiya E</a></li><li><a href="https://lens-db.com/system/mamiya-es/" title="Mamiya ES system">Mamiya ES</a></li><li><a href="https://lens-db.com/system/mamiya-m645/" title="Mamiya M645 system">Mamiya M645</a></li><li><a href="https://lens-db.com/system/mamiya-rb67/" title="Mamiya RB67 system">Mamiya RB67</a></li><li><a href="https://lens-db.com/system/mamiya-rz67/" title="Mamiya RZ67 system">Mamiya RZ67</a></li><li><a href="https://lens-db.com/system/mamiya-sx-m42/" title="Mamiya SX M42 system">Mamiya SX M42</a></li><li><a href="https://lens-db.com/system/mamiya-tl-dtl-m42/" title="Mamiya TL/DTL M42 system">Mamiya TL/DTL M42</a></li><li><a href="https://lens-db.com/system/minolta-35/" title="Minolta-35 system">Minolta-35</a></li><li><a href="https://lens-db.com/system/minolta-a/" title="Minolta A system">Minolta A</a></li><li><a href="https://lens-db.com/system/minolta-cle/" title="Minolta CLE system">Minolta CLE</a></li><li><a href="https://lens-db.com/system/minolta-sr/" title="Minolta SR system">Minolta SR</a></li><li class="uk-nav-header">N</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/system/nikon-f/" title="Nikon F system">Nikon F</a></li><li><a href="https://lens-db.com/system/nikon-f-aps-c/" title="Nikon F APS-C system">Nikon F APS-C</a></li><li><a href="https://lens-db.com/system/nikon-s/" title="Nikon S system">Nikon S</a></li><li><a href="https://lens-db.com/system/nikon-z/" title="Nikon Z system">Nikon Z</a></li><li><a href="https://lens-db.com/system/nikon-z-aps-c/" title="Nikon Z APS-C system">Nikon Z APS-C</a></li><li><a href="https://lens-db.com/system/norita-66/" title="Norita 66 system">Norita 66</a></li><li class="uk-nav-header">O</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/system/olympus-ftl-m42/" title="Olympus FTL M42 system">Olympus FTL M42</a></li><li><a href="https://lens-db.com/system/olympus-om/" title="Olympus OM system">Olympus OM</a></li><li class="uk-nav-header">P</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/system/pentax-6x7/" title="Pentax 6×7 system">Pentax 6×7</a></li><li><a href="https://lens-db.com/system/pentax-645/" title="Pentax 645 system">Pentax 645</a></li><li><a href="https://lens-db.com/system/pentax-k/" title="Pentax K system">Pentax K</a></li><li><a href="https://lens-db.com/system/pentax-k-aps-c/" title="Pentax K APS-C system">Pentax K APS-C</a></li><li class="uk-nav-header">R</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/system/rolleiflex-sl35/" title="Rolleiflex SL35 system">Rolleiflex SL35</a></li><li><a href="https://lens-db.com/system/rolleiflex-sl66/" title="Rolleiflex SL66 system">Rolleiflex SL66</a></li><li><a href="https://lens-db.com/system/rolleiflex-slx-6000/" title="Rolleiflex SLX/6000 system">Rolleiflex SLX/6000</a></li><li class="uk-nav-header">S</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/system/samsung-nx/" title="Samsung NX system">Samsung NX</a></li><li><a href="https://lens-db.com/system/sony-a/" title="Sony A system">Sony A</a></li><li><a href="https://lens-db.com/system/sony-a-aps-c/" title="Sony A APS-C system">Sony A APS-C</a></li><li><a href="https://lens-db.com/system/sony-e/" title="Sony E system">Sony E</a></li><li><a href="https://lens-db.com/system/sony-e-aps-c/" title="Sony E APS-C system">Sony E APS-C</a></li><li class="uk-nav-header">T</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/system/topcon/" title="Topcon system">Topcon</a></li><li class="uk-nav-header">Y</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/system/yashica-m42/" title="Yashica M42 system">Yashica M42</a></li><li><a href="https://lens-db.com/system/yashica-m39/" title="Yashica SM system">Yashica SM</a></li>
+				</ul>
+			</div>
+		</div>
+		<div id="offcanvas-collections" uk-offcanvas="mode: none; overlay: true" class="uk-offcanvas">
+			<div class="uk-offcanvas-bar">
+				<ul class="uk-nav uk-nav-default">
+					<li class="uk-nav-header">Collections</li><li class="uk-nav-header">A</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/collections/recently-announced/">Announced in 2022-2023</a></li><li class="uk-nav-header">B</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/collections/bellows-lenses/">Bellows lenses</a></li><li class="uk-nav-header">C</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/collections/canon-special-limited-editions/">Canon special limited editions</a></li><li><a href="https://lens-db.com/collections/carl-zeiss-special-limited-editions/">Carl Zeiss special limited editions</a></li><li><a href="https://lens-db.com/collections/compact-lightweight-fast-af-primes/">Compact, lightweight &amp; fast AF primes</a></li><li><a href="https://lens-db.com/collections/cosina-voigtlander-special-limited-editions/">Cosina Voigtlander special limited editions</a></li><li class="uk-nav-header">F</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/collections/fisheye-lenses/">Fisheye lenses</a></li><li class="uk-nav-header">H</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/collections/hasselblad-special-limited-editions/">Hasselblad special limited editions</a></li><li><a href="https://lens-db.com/collections/holy-trinities/">Holy Trinities of lenses</a></li><li class="uk-nav-header">J</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/collections/japanese-rangefinder-revival-of-1990s-2000s/">Japanese rangefinder revival of 1990s-2000s</a></li><li class="uk-nav-header">L</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/collections/leica-m-special-limited-editions/">Leica M special limited editions</a></li><li><a href="https://lens-db.com/collections/leica-r-special-limited-editions/">Leica R special limited editions</a></li><li class="uk-nav-header">M</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/collections/macro-1-1/">Macro 1:1</a></li><li><a href="https://lens-db.com/collections/macro-1-2/">Macro 1:2</a></li><li><a href="https://lens-db.com/collections/mirror-reflex-lenses/">Mirror/Reflex lenses</a></li><li class="uk-nav-header">N</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/collections/nifty-forties/">Nifty forties</a></li><li><a href="https://lens-db.com/collections/nikon-special-limited-editions/">Nikon special limited editions</a></li><li class="uk-nav-header">P</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/collections/pancake-lenses/">Pancake lenses</a></li><li><a href="https://lens-db.com/collections/pentax-special-limited-editions/">Pentax special limited editions</a></li><li class="uk-nav-header">R</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/collections/rollei-special-limited-editions/">Rollei special limited editions</a></li><li class="uk-nav-header">S</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/collections/shift-lenses/">Shift lenses</a></li><li><a href="https://lens-db.com/collections/soft-focus-lenses/">Soft Focus lenses</a></li><li class="uk-nav-header">U</li><li class="uk-nav-divider"></li><li><a href="https://lens-db.com/collections/ultra-fast-lenses/">Ultra-fast lenses</a></li><li><a href="https://lens-db.com/collections/uv-ir-photography/">UV/IR photography</a></li>
+				</ul>
+			</div>
+		</div>	
+	<div itemscope="" itemtype="http://schema.org/WPHeader">
+	
+		<div id="top-section" class="uk-section uk-section-muted" style="padding-top: 5px; padding-bottom: 5px; border-bottom: 1px solid rgba(160, 160, 160, 0.3)">
+		
+			<div class="uk-container">
+			
+				<div class="uk-flex uk-flex-between uk-flex-middle uk-flex-wrap">
+				
+					<div><span style="font-size: small; text-transform: uppercase"><a class="uk-link-text" href="https://lens-db.com/about/">More than just a camera lens database</a></span></div>
+					
+					<div><span style="font-size: small; text-transform: uppercase"></span></div>			
+				</div>
+			
+			</div>
+			
+		</div>
+		
+		<div class="uk-section uk-section-muted" style="padding-top: 10px; padding-bottom: 10px; border-bottom: 1px solid rgba(160, 160, 160, 0.3)">
+		
+			<div class="uk-container">
+			
+				<div class="uk-flex uk-flex-between uk-flex-middle uk-flex-wrap">
+			
+					<div class="uk-flex uk-flex-left uk-flex-middle uk-flex-wrap">
+			
+						<div class="uk-margin-right"><h3 style="margin-bottom: 0"><a class="uk-link-heading" href="https://lens-db.com/">LENS-DB.COM</a></h3></div>
+				
+						<div><ul class="uk-subnav uk-margin-remove-bottom" itemscope="" itemtype="http://www.schema.org/SiteNavigationElement">
+				
+							<li>
+					
+								<a href="https://lens-db.com/system/sony-e/" aria-haspopup="true" aria-expanded="false">Lenses<span style="margin-left: -5px" uk-icon="icon: triangle-down" class="uk-icon"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><polygon points="5 7 15 7 10 12"></polygon></svg></span></a>
+						
+								<div uk-dropdown="mode: click" class="uk-dropdown">
+						
+									<ul class="uk-nav uk-dropdown-nav">
+
+									
+																
+										<li itemprop="name"><a itemprop="url" href="https://lens-db.com/timeline/">Timeline</a></li>
+										<li itemprop="name"><a uk-toggle="target: #offcanvas-systems" tabindex="0" aria-expanded="false">Systems</a></li>
+										<li class="uk-nav-divider"></li>
+										<li itemprop="name"><a uk-toggle="target: #offcanvas-collections" tabindex="0" aria-expanded="false">Collections</a></li>
+										<li itemprop="name"><a itemprop="url" href="https://lens-db.com/genres/">Genres</a></li>
+										<li class="uk-nav-divider"></li>
+										<li itemprop="name"><a itemprop="url" href="https://lens-db.com/advanced-search/">Advanced Search</a></li>							
+									</ul>
+							
+								</div>						
+					
+							</li>
+					
+							<li><a href="https://lens-db.com/cameras/">Cameras</a></li>
+							
+							<li>
+					
+								<a href="https://lens-db.com/system/sony-e/" aria-haspopup="true" aria-expanded="false">Help<span style="margin-left: -5px" uk-icon="icon: triangle-down" class="uk-icon"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><polygon points="5 7 15 7 10 12"></polygon></svg></span></a>
+						
+								<div uk-dropdown="mode: click" class="uk-dropdown">
+						
+									<ul class="uk-nav uk-dropdown-nav">
+
+									
+														
+										<li itemprop="name"><a itemprop="url" href="https://lens-db.com/about/">About This Website</a></li>		
+										<li itemprop="name"><a itemprop="url" href="https://lens-db.com/how-to-use-this-website/">How To Use This Website</a></li>
+										<li itemprop="name"><a itemprop="url" href="https://lens-db.com/faq/">FAQ</a></li>
+										<li class="uk-nav-divider"></li>
+										<li itemprop="name"><a itemprop="url" href="https://lens-db.com/articles-and-tables/">Articles And Tables</a></li>
+										<li itemprop="name"><a itemprop="url" href="https://lens-db.com/links/">Links</a></li>							
+									</ul>
+							
+								</div>						
+					
+							</li>
+							
+							<li>
+												
+								<a href="https://lens-db.com/system/sony-e/" aria-haspopup="true" aria-expanded="false">Members<span style="margin-left: -5px" uk-icon="icon: triangle-down" class="uk-icon"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><polygon points="5 7 15 7 10 12"></polygon></svg></span></a>
+						
+								<div uk-dropdown="mode: click" class="uk-dropdown">
+						
+									<ul class="uk-nav uk-dropdown-nav">
+
+
+									
+										
+										<li itemprop="name"><a itemprop="url" href="https://lens-db.com/recent-comments/">Recent Comments</a></li>
+										<li class="uk-nav-divider"></li><li itemprop="name"><a itemprop="url" href="https://lens-db.com/wp-login.php?redirect_to=%2F%2Flens-db.com%2Fsystem%2Fsony-e%2F">Log In</a></li><li itemprop="name"><a itemprop="url" href="https://lens-db.com/wp-login.php?action=register">Register</a></li>
+										<li class="uk-nav-divider"></li>
+										<li itemprop="name"><a itemprop="url" href="https://lens-db.com/contact/">Contact Admin</a></li>							
+									</ul>
+							
+								</div>						
+					
+							</li>	
+				
+						</ul></div>
+					
+					</div>  <!-- Flex -->
+					
+					<div>
+	
+						<form id="search" method="get" action="https://lens-db.com/">
+							<div class="uk-inline">
+								<button type="submit" class="uk-form-icon uk-form-icon-flip uk-icon" uk-icon="icon: search"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><circle fill="none" stroke="#000" stroke-width="1.1" cx="9" cy="9" r="7"></circle><path fill="none" stroke="#000" stroke-width="1.1" d="M14,14 L18,18 L14,14 Z"></path></svg></button>
+								<input class="uk-input" type="text" name="s" id="inputS" placeholder="Search..." maxlength="64" value="" required="" uk-tooltip="title: Specify a brand name or a lens series, focal length in mm and/or lens speed.; pos: bottom" title="" aria-describedby="uk-tooltip-14">
+							</div>
+						</form>
+												
+					</div>
+					
+				</div>  <!-- Flex -->
+			
+			</div>  <!-- Container -->
+			
+		</div>  <!-- Section -->
+	
+	</div>  <!-- WPHeader -->
+	
+	
+<!-- 
+	<div class="uk-section uk-section-muted" style="padding-top: 30px; padding-bottom: 0px" itemscope itemtype="http://schema.org/WPAdBlock">
+
+		<div class="uk-container">
+		
+			<div class="uk-width-1-1">
+			
+				<div style="display: block; width: 728px; padding: 10px; margin-left: auto; margin-right: auto;">
+ -->
+
+										
+<!-- 
+				</div>
+			
+			</div>
+		
+		</div>
+
+	</div>
+ -->
+
+	
+	
+<div class="uk-section uk-section-muted" style="padding-top: 30px; padding-bottom: 30px"><div class="uk-container"><div uk-grid="" style="margin-left: 0px" class="uk-grid"><div class="uk-width-expand uk-first-column" style="background-color: white; padding-left: 0px"><div style="padding: 40px"><div style="padding-bottom: 30px"><h1 id="LensNameElement" class="uk-text-center uk-margin-remove-bottom" style="font-weight: 500">Sony E</h1><h3 class="uk-text-center uk-margin-small-top uk-margin-remove-bottom" style="color: gray">35mm mirrorless system</h3></div><div style="margin-top: 30px"><div class="formatted-text"><p>A very popular 35mm full-frame mirrorless system, which includes cameras for both amateur and professional photographers. The "S" models are optimized for low noise at high ISOs, while the "R" models are high resolution cameras. Since the second generation, A7 series cameras have been equipped with sensor-shift image stabilization technology.</p>
+
+<p>The lens lineup consists of several series: (1) relatively inexpensive models designed for amateur photographers, (2) lenses developed in collaboration with Zeiss, (3) professional G series models, and (4) Grand Master series models, which are high-end professional optics optimized for high resolution and attractive bokeh.</p></div><div class="uk-margin-bottom"><h3 class="uk-margin-remove-bottom uk-text-center" style="padding-left: 25px">Camera list</h3></div><ul uk-accordion="multiple: true" class="uk-accordion">
+			<li class="uk-open">
+				<a class="uk-accordion-title uk-text-center uk-text-uppercase uk-text-muted" style="font-size: 16px" href="https://lens-db.com/system/sony-e/#">35mm digital mirrorless cameras with the Sony E mount (17):</a>
+				<div class="uk-accordion-content uk-text-center"><a href="https://lens-db.com/camera/sony-a7-2013/" target="_blank">Sony a7</a> (2013) • <a href="https://lens-db.com/camera/sony-a7r-2013/" target="_blank">Sony a7R</a> (2013) • <a href="https://lens-db.com/camera/sony-a7s-2014/" target="_blank">Sony a7S</a> (2014) • <a href="https://lens-db.com/camera/sony-a7-ii-2014/" target="_blank">Sony a7 II</a> (2014) • <a href="https://lens-db.com/camera/sony-a7r-ii-2015/" target="_blank">Sony a7R II</a> (2015) • <a href="https://lens-db.com/camera/sony-a7s-ii-2015/" target="_blank">Sony a7S II</a> (2015) • <a href="https://lens-db.com/camera/sony-a7r-iii-2017/" target="_blank">Sony a7R III</a> (2017) • <a href="https://lens-db.com/camera/sony-a9-2017/" target="_blank">Sony a9</a> (2017) • <a href="https://lens-db.com/camera/sony-a7-iii-2018/" target="_blank">Sony a7 III</a> (2018) • <a href="https://lens-db.com/camera/sony-a7r-iv-2019/" target="_blank">Sony a7R IV</a> (2019) • <a href="https://lens-db.com/camera/sony-a9-ii-2019/" target="_blank">Sony a9 II</a> (2019) • <a href="https://lens-db.com/camera/sony-a7s-iii-2020/" target="_blank">Sony a7S III</a> (2020) • <a href="https://lens-db.com/camera/sony-a7c-2020/" target="_blank">Sony a7C</a> (2020) • <a href="https://lens-db.com/camera/sony-a1-2021/" target="_blank">Sony a1</a> (2021) • <a href="https://lens-db.com/camera/sony-a7-iv-2021/" target="_blank">Sony a7 IV</a> (2021) • <a href="https://lens-db.com/camera/sony-a7r-v-2022/" target="_blank">Sony a7R V</a> (2022) • <a href="https://lens-db.com/camera/sony-zv-e1-2023/" target="_blank">Sony ZV-E1</a> (2023)
+				</div>
+			</li></ul><div class="uk-margin-bottom"><h3 class="uk-margin-remove-bottom uk-text-center" style="padding-left: 25px">Sony E mount lens list</h3></div>
+				
+				<ul class="uk-flex-center uk-tab" uk-tab=""><li class="uk-active"><a href="https://lens-db.com/system/sony-e/#" aria-expanded="true">In production (44)</a></li></ul><ul class="uk-switcher uk-margin" style="touch-action: pan-y pinch-zoom;"><li class="uk-active"><div itemscope="" itemtype="http://schema.org/Table"><meta itemprop="about" content="Sony E mount lens list (in production)"><table class="uk-table lensdb uk-table-divider"><tbody><tr><td class="uk-text-uppercase uk-text-muted" colspan="10" style="font-size: 16px">Ultra-wide angle prime lenses</td></tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-14mm-f18-gm-sel14f18gm-2021/">Sony FE 14mm F/1.8 GM [SEL14F18GM]</a></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>2</span><span>1</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-20mm-f18-g-sel20f18g-2020/">Sony FE 20mm F/1.8 G [SEL20F18G]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀67</span></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>2</span><span>0</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr><tr><td class="uk-text-uppercase uk-text-muted" colspan="10" style="font-size: 16px">Wide-angle prime lenses</td></tr>
+		<tr>
+			<td colspan="2" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-24mm-f28-g-sel24f28g-2021/">Sony FE 24mm F/2.8 G [SEL24F28G]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀49</span></td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>2</span><span>1</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-24mm-f14-gm-sel24f14gm-2018/">Sony FE 24mm F/1.4 GM [SEL24F14GM]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀67</span></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>8</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="2" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-28mm-f2-sel28f20-2015/">Sony FE 28mm F/2 [SEL28F20]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀49</span></td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>5</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="2" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-carl-zeiss-sonnar-t-35mm-f28-za-sel35f28z-2013/">Sony FE Carl Zeiss Sonnar T* 35mm F/2.8 ZA [SEL35F28Z]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀49</span></td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>3</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="2" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-35mm-f18-sel35f18f-2019/">Sony FE 35mm F/1.8 [SEL35F18F]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀55</span></td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>9</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-zeiss-distagon-t-35mm-f14-za-sel35f14z-2015/">Sony FE ZEISS Distagon T* 35mm F/1.4 ZA [SEL35F14Z]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀72</span></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>5</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-35mm-f14-gm-sel35f14gm-2021/">Sony FE 35mm F/1.4 GM [SEL35F14GM]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀67</span></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>2</span><span>1</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="2" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-40mm-f25-g-sel40f25g-2021/">Sony FE 40mm F/2.5 G [SEL40F25G]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀49</span></td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>2</span><span>1</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr><tr><td class="uk-text-uppercase uk-text-muted" colspan="10" style="font-size: 16px">Standard prime lenses</td></tr>
+		<tr>
+			<td colspan="2" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-50mm-f25-g-sel50f25g-2021/">Sony FE 50mm F/2.5 G [SEL50F25G]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀49</span></td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>2</span><span>1</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="2" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-50mm-f18-sel50f18f-2016/">Sony FE 50mm F/1.8 [SEL50F18F]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀49</span></td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>6</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-zeiss-planar-t-50mm-f14-za-ssm-sel50f14z-2016/">Sony FE ZEISS Planar T* 50mm F/1.4 ZA SSM [SEL50F14Z]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀72</span></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>6</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-50mm-f14-gm-sel50f14gm-2023/">Sony FE 50mm F/1.4 GM [SEL50F14GM]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀67</span></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>2</span><span>3</span>&nbsp;<span style="color: rgb(222, 147, 53); " title="Newly announced">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-50mm-f12-gm-sel50f12gm-2021/">Sony FE 50mm F/1.2 GM [SEL50F12GM]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀72</span></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>2</span><span>1</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="2" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-carl-zeiss-sonnar-t-55mm-f18-za-sel55f18z-2013/">Sony FE Carl Zeiss Sonnar T* 55mm F/1.8 ZA [SEL55F18Z]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀49</span></td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>3</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr><tr><td class="uk-text-uppercase uk-text-muted" colspan="10" style="font-size: 16px">Short telephoto prime lenses</td></tr>
+		<tr>
+			<td colspan="2" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-85mm-f18-sel85f18-2017/">Sony FE 85mm F/1.8 [SEL85F18]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀67</span></td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>7</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-85mm-f14-gm-sel85f14gm-2016/">Sony FE 85mm F/1.4 GM [SEL85F14GM]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀77</span></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>6</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="2" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-100mm-f28-t56-stf-gm-oss-sel100f28gm-2017/">Sony FE 100mm F/2.8 [T5.6] STF GM OSS [SEL100F28GM]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀72</span></td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>7</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr><tr><td class="uk-text-uppercase uk-text-muted" colspan="10" style="font-size: 16px">Medium telephoto prime lenses</td></tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-135mm-f18-gm-sel135f18gm-2019/">Sony FE 135mm F/1.8 GM [SEL135F18GM]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀82</span></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>9</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr><tr><td class="uk-text-uppercase uk-text-muted" colspan="10" style="font-size: 16px">Super telephoto prime lenses</td></tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-400mm-f28-gm-oss-sel400f28gm-2018/">Sony FE 400mm F/2.8 GM OSS [SEL400F28GM]</a></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>8</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-600mm-f4-gm-oss-sel600f40gm-2019/">Sony FE 600mm F/4 GM OSS [SEL600F40GM]</a></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>9</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr><tr><td class="uk-text-uppercase uk-text-muted" colspan="10" style="font-size: 16px">Macro lenses</td></tr>
+		<tr>
+			<td colspan="2" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-50mm-f28-macro-sel50m28-2016/">Sony FE 50mm F/2.8 Macro [SEL50M28]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀55</span><span style="color: gray"> • </span>1:1 @ 0.16m</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>6</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-90mm-f28-macro-g-oss-sel90m28g-2015/">Sony FE 90mm F/2.8 Macro G OSS [SEL90M28G]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀62</span><span style="color: gray"> • </span>1:1 @ 0.28m</td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>5</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr><tr><td class="uk-text-uppercase uk-text-muted" colspan="10" style="font-size: 16px">Wide-angle zoom lenses</td></tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-12-24mm-f4-g-sel1224g-2017/">Sony FE 12-24mm F/4 G [SEL1224G]</a></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>7</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-12-24mm-f28-gm-sel1224gm-2020/">Sony FE 12-24mm F/2.8 GM [SEL1224GM]</a></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>2</span><span>0</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-zeiss-vario-tessar-t-16-35mm-f4-za-oss-sel1635z-2014/">Sony FE ZEISS Vario-Tessar T* 16-35mm F/4 ZA OSS [SEL1635Z]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀72</span></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>4</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-16-35mm-f4-g-pz-selp1635g-2022/">Sony FE 16-35mm F/4 G PZ [SELP1635G]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀72</span></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>2</span><span>2</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-16-35mm-f28-gm-sel1635gm-2017/">Sony FE 16-35mm F/2.8 GM [SEL1635GM]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀82</span></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>7</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr><tr><td class="uk-text-uppercase uk-text-muted" colspan="10" style="font-size: 16px">Standard zoom lenses</td></tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-20-70mm-f4-g-sel2070g-2023/">Sony FE 20-70mm F/4 G [SEL2070G]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀72</span></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>2</span><span>3</span>&nbsp;<span style="color: rgb(222, 147, 53); " title="Newly announced">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-carl-zeiss-vario-tessar-t-24-70mm-f4-za-oss-sel2470z-2013/">Sony FE Carl Zeiss Vario-Tessar T* 24-70mm F/4 ZA OSS [SEL2470Z]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀67</span></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>3</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-24-70mm-f28-gm-sel2470gm-2016/">Sony FE 24-70mm F/2.8 GM [SEL2470GM]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀82</span></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>6</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-24-70mm-f28-gm-ii-sel2470gm2-2022/">Sony FE 24-70mm F/2.8 GM II [SEL2470GM2]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀82</span></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>2</span><span>2</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-24-105mm-f4-g-oss-sel24105g-2017/">Sony FE 24-105mm F/4 G OSS [SEL24105G]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀77</span></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>7</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="2" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-28-60mm-f4-56-sel2860-2020/">Sony FE 28-60mm F/4-5.6 [SEL2860]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀40.5</span></td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>2</span><span>0</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="2" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-28-70mm-f35-56-oss-sel2870-2013/">Sony FE 28-70mm F/3.5-5.6 OSS [SEL2870]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀55</span></td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>3</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-28-135mm-f4-g-oss-pz-selp28135g-2014/">Sony FE 28-135mm F/4 G OSS PZ [SELP28135G]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀95</span></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>4</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr><tr><td class="uk-text-uppercase uk-text-muted" colspan="10" style="font-size: 16px">Telephoto zoom lenses</td></tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-70-200mm-f4-g-oss-sel70200g-2013/">Sony FE 70-200mm F/4 G OSS [SEL70200G]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀72</span></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>3</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-70-200mm-f28-gm-oss-sel70200gm-2016/">Sony FE 70-200mm F/2.8 GM OSS [SEL70200GM]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀77</span></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>6</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-70-200mm-f28-gm-oss-ii-sel70200gm2-2021/">Sony FE 70-200mm F/2.8 GM OSS II [SEL70200GM2]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀77</span></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>2</span><span>1</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="2" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-70-300mm-f45-56-g-oss-sel70300g-2016/">Sony FE 70-300mm F/4.5-5.6 G OSS [SEL70300G]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀72</span></td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>6</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-100-400mm-f45-56-gm-oss-sel100400gm-2017/">Sony FE 100-400mm F/4.5-5.6 GM OSS [SEL100400GM]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀77</span></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>7</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-200-600mm-f56-63-g-oss-sel200600g-2019/">Sony FE 200-600mm F/5.6-6.3 G OSS [SEL200600G]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀95</span></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>9</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr><tr><td class="uk-text-uppercase uk-text-muted" colspan="10" style="font-size: 16px">Superzoom lenses</td></tr>
+		<tr>
+			<td colspan="1" class="uk-table-expand" style="vertical-align: middle; "><a href="https://lens-db.com/sony-fe-24-240mm-f35-63-oss-sel24240-2015/">Sony FE 24-240mm F/3.5-6.3 OSS [SEL24240]</a><span style="color: gray"> • </span><span style="color: #999"> ⌀72</span></td><td class="uk-table-shrink" style="vertical-align: middle; text-align: center; ">Pro</td>
+			<td class="uk-table-shrink monospace" style="vertical-align: middle; text-align: right; white-space: nowrap; "><span>2</span><span>0</span><span>1</span><span>5</span>&nbsp;<span style="color: #33CC00; " title="In production">●</span></td>
+		</tr></tbody></table></div></li></ul></div>
+
+</div></div><div class="uk-width-1-4@xl uk-width-1-4@l uk-width-1-4@m uk-width-1-1@s" style="padding: 0px" itemscope="" itemtype="http://schema.org/WPSideBar">
+		<div style="background-color: white; padding-top: 20px; padding-bottom: 20px; padding-left: 30px; padding-right: 30px; border-left: 1px solid #efefef; border-bottom: 1px solid #efefef">
+			<h5 class="uk-text-uppercase" style="margin-bottom: 10px; line-height: 16px">Share<br><span style="font-size: small; text-transform: lowercase">Clickable</span></h5>
+			<ul class="uk-nav uk-nav-default">
+			<a class="uk-icon-link uk-margin-small-right uk-icon" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Flens-db.com%2Fsystem%2Fsony-e%2F&amp;t=Sony+E" onclick="javascript:window.open(this.href, &#39;&#39;, &#39;menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600&#39;);return false;" target="_blank" uk-icon="icon: facebook; ratio: 1.5" title="Share"><svg width="30" height="30" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M11,10h2.6l0.4-3H11V5.3c0-0.9,0.2-1.5,1.5-1.5H14V1.1c-0.3,0-1-0.1-2.1-0.1C9.6,1,8,2.4,8,5v2H5.5v3H8v8h3V10z"></path></svg></a>
+			<a class="uk-icon-link uk-margin-small-right uk-icon" href="https://twitter.com/share?url=https%3A%2F%2Flens-db.com%2Fsystem%2Fsony-e%2F&amp;text=Sony+E" onclick="javascript:window.open(this.href, &#39;&#39;, &#39;menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600&#39;);return false;" target="_blank" uk-icon="icon: twitter; ratio: 1.5" title="Twit"><svg width="30" height="30" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M19,4.74 C18.339,5.029 17.626,5.229 16.881,5.32 C17.644,4.86 18.227,4.139 18.503,3.28 C17.79,3.7 17.001,4.009 16.159,4.17 C15.485,3.45 14.526,3 13.464,3 C11.423,3 9.771,4.66 9.771,6.7 C9.771,6.99 9.804,7.269 9.868,7.539 C6.795,7.38 4.076,5.919 2.254,3.679 C1.936,4.219 1.754,4.86 1.754,5.539 C1.754,6.82 2.405,7.95 3.397,8.61 C2.79,8.589 2.22,8.429 1.723,8.149 L1.723,8.189 C1.723,9.978 2.997,11.478 4.686,11.82 C4.376,11.899 4.049,11.939 3.713,11.939 C3.475,11.939 3.245,11.919 3.018,11.88 C3.49,13.349 4.852,14.419 6.469,14.449 C5.205,15.429 3.612,16.019 1.882,16.019 C1.583,16.019 1.29,16.009 1,15.969 C2.635,17.019 4.576,17.629 6.662,17.629 C13.454,17.629 17.17,12 17.17,7.129 C17.17,6.969 17.166,6.809 17.157,6.649 C17.879,6.129 18.504,5.478 19,4.74"></path></svg></a>
+			<a class="uk-icon-link uk-margin-small-right uk-icon" href="mailto:?subject=Sony%20E&amp;body=https%3A%2F%2Flens-db.com%2Fsystem%2Fsony-e%2F" target="_blank" uk-icon="icon: mail; ratio: 1.5" title="Email"><svg width="30" height="30" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><polyline fill="none" stroke="#000" points="1.4,6.5 10,11 18.6,6.5"></polyline><path d="M 1,4 1,16 19,16 19,4 1,4 Z M 18,15 2,15 2,5 18,5 18,15 Z"></path></svg></a>
+			</ul>
+		</div>
+		<div style="background-color: white; padding-top: 20px; padding-bottom: 20px; padding-left: 30px; padding-right: 30px; border-left: 1px solid #efefef; border-bottom: 1px solid #efefef">
+			<h5 class="uk-text-uppercase" style="margin-bottom: 10px; ">Completeness of lens lineup in production</h5>
+			<ul class="uk-nav uk-nav-default">
+			<div uk-grid="" style="margin-top: 10px; margin-left: 0" class="uk-grid uk-grid-stack">
+				<div class="uk-width-expand uk-first-column" style="padding-left: 0; color: #8cc14c">Enthusiast photography</div>
+			</div>
+			<div uk-grid="" style="margin-top: 0px; margin-left: 0; margin-bottom: 5px" class="uk-grid">
+				<div class="uk-width-expand uk-first-column" style="padding-left: 0px">
+					<div style="height: 12px; margin-top: 7px; background: #eeeeee">
+						<div style="height: 100%; width: 100%; background-color: #8cc14c"></div>
+					</div>
+				</div>
+				<div class="uk-width-auto uk-text-right" style="padding-left: 10px; color: #8cc14c">100%</div>
+			</div>
+			<div uk-grid="" style="margin-top: 10px; margin-left: 0" class="uk-grid uk-grid-stack">
+				<div class="uk-width-expand uk-first-column" style="padding-left: 0; color: #8cc14c">Professional photography</div>
+			</div>
+			<div uk-grid="" style="margin-top: 0px; margin-left: 0; margin-bottom: 5px" class="uk-grid">
+				<div class="uk-width-expand uk-first-column" style="padding-left: 0px">
+					<div style="height: 12px; margin-top: 7px; background: #eeeeee">
+						<div style="height: 100%; width: 90%; background-color: #8cc14c"></div>
+					</div>
+				</div>
+				<div class="uk-width-auto uk-text-right" style="padding-left: 10px; color: #8cc14c">90%</div>
+			</div><p class="uk-text-meta" style="margin-bottom: 0px; color: #8cc14c">No dedicated lenses for architectural photography with perspective correction.</p>
+			</ul>
+		</div>
+		<div style="background-color: white; padding-top: 20px; padding-bottom: 20px; padding-left: 30px; padding-right: 30px; border-left: 1px solid #efefef; border-bottom: 1px solid #efefef">
+			<h5 class="uk-text-uppercase" style="margin-bottom: 10px; line-height: 16px">Popular lenses<br><span style="font-size: small; text-transform: lowercase">Clickable</span></h5>
+			<ul class="uk-nav uk-nav-default"><li><a style="display: block; padding-bottom: 4px" href="https://lens-db.com/sony-fe-20mm-f18-g-sel20f18g-2020/">Sony FE 20/1.8 G</a></li><li><a style="display: block; padding-bottom: 4px" href="https://lens-db.com/sony-fe-carl-zeiss-sonnar-t-55mm-f18-za-sel55f18z-2013/">Sony FE Carl Zeiss Sonnar T* 55/1.8 ZA</a></li><li><a style="display: block; padding-bottom: 4px" href="https://lens-db.com/sony-fe-24-105mm-f4-g-oss-sel24105g-2017/">Sony FE 24-105/4 G OSS</a></li><li><a style="display: block; padding-bottom: 4px" href="https://lens-db.com/sony-fe-600mm-f4-gm-oss-sel600f40gm-2019/">Sony FE 600/4 GM OSS</a></li><li><a style="display: block; padding-bottom: 4px" href="https://lens-db.com/sony-fe-24mm-f14-gm-sel24f14gm-2018/">Sony FE 24/1.4 GM</a></li><li><a style="display: block; padding-bottom: 4px" href="https://lens-db.com/sony-fe-carl-zeiss-sonnar-t-35mm-f28-za-sel35f28z-2013/">Sony FE Carl Zeiss Sonnar T* 35/2.8 ZA</a></li><li><a style="display: block; padding-bottom: 4px" href="https://lens-db.com/sony-fe-85mm-f14-gm-sel85f14gm-2016/">Sony FE 85/1.4 GM</a></li><li><a style="display: block; padding-bottom: 4px" href="https://lens-db.com/sony-fe-85mm-f18-sel85f18-2017/">Sony FE 85/1.8</a></li><li><a style="display: block; padding-bottom: 4px" href="https://lens-db.com/sony-fe-90mm-f28-macro-g-oss-sel90m28g-2015/">Sony FE 90/2.8 Macro G OSS</a></li><li><a style="display: block; padding-bottom: 4px" href="https://lens-db.com/sony-fe-zeiss-planar-t-50mm-f14-za-ssm-sel50f14z-2016/">Sony FE ZEISS Planar T* 50/1.4 ZA SSM</a></li>
+			</ul>
+		</div>
+		<div style="background-color: white; padding-top: 20px; padding-bottom: 20px; padding-left: 30px; padding-right: 30px; border-left: 1px solid #efefef; border-bottom: 1px solid #efefef">
+			<h5 class="uk-text-uppercase" style="margin-bottom: 10px; line-height: 16px">Popular cameras<br><span style="font-size: small; text-transform: lowercase">Clickable</span></h5>
+			<ul class="uk-nav uk-nav-default"><li><a style="display: block; padding-bottom: 4px" href="https://lens-db.com/camera/sony-a7s-2014/">Sony a7S</a></li><li><a style="display: block; padding-bottom: 4px" href="https://lens-db.com/camera/sony-a9-2017/">Sony a9</a></li><li><a style="display: block; padding-bottom: 4px" href="https://lens-db.com/camera/sony-a7-2013/">Sony a7</a></li><li><a style="display: block; padding-bottom: 4px" href="https://lens-db.com/camera/sony-a7-iv-2021/">Sony a7 IV</a></li><li><a style="display: block; padding-bottom: 4px" href="https://lens-db.com/camera/sony-a7s-iii-2020/">Sony a7S III</a></li><li><a style="display: block; padding-bottom: 4px" href="https://lens-db.com/camera/sony-a7s-ii-2015/">Sony a7S II</a></li><li><a style="display: block; padding-bottom: 4px" href="https://lens-db.com/camera/sony-a9-ii-2019/">Sony a9 II</a></li><li><a style="display: block; padding-bottom: 4px" href="https://lens-db.com/camera/sony-a1-2021/">Sony a1</a></li><li><a style="display: block; padding-bottom: 4px" href="https://lens-db.com/camera/sony-a7r-iv-2019/">Sony a7R IV</a></li><li><a style="display: block; padding-bottom: 4px" href="https://lens-db.com/camera/sony-a7c-2020/">Sony a7C</a></li>
+			</ul>
+		</div>
+		<div style="background-color: white; padding-top: 20px; padding-bottom: 20px; padding-left: 30px; padding-right: 30px; border-left: 1px solid #efefef; border-bottom: 1px solid #efefef">
+			<h5 class="uk-text-uppercase" style="margin-bottom: 10px; line-height: 16px">Similar systems<br><span style="font-size: small; text-transform: lowercase">Clickable</span></h5>
+			<ul class="uk-nav uk-nav-default"><li><a style="display: block; padding-bottom: 4px" href="https://lens-db.com/system/canon-eos-r/">Canon EOS R</a></li><li><a style="display: block; padding-bottom: 4px" href="https://lens-db.com/system/leica-l/">Leica L</a></li><li><a style="display: block; padding-bottom: 4px" href="https://lens-db.com/system/nikon-z/">Nikon Z</a></li>
+			</ul>
+		</div></div></div></div></div><div class="uk-section uk-section-small uk-section-muted" style="border-top: 1px solid rgba(160, 160, 160, 0.3)" itemscope="" itemtype="http://schema.org/WPFooter"><div class="uk-container uk-container-large">
+			<p>Copyright © 2012-2023 Evgenii Artemov. All rights reserved. Translation and/or reproduction of website materials in any form, including the Internet, is prohibited without the express written permission of the website owner.</p>
+			<div class="uk-margin-top">
+				<a style="color: inherit" href="https://lens-db.com/disclaimer/">Limitation of liability</a> • 
+				<a style="color: inherit" href="https://lens-db.com/privacy/">Privacy policy</a> • 
+				<a style="color: inherit" href="https://lens-db.com/contact/">Contact</a> • 
+				<a style="color: inherit" href="https://lens-db.com/donate/">Donate</a>
+			</div></div></div>
+
+            <style>
+            body {
+
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+        </style>
+    
+    <!--version 4.2 -->
+
+    
+
+
+
+
+
+      
+   
+       <script type="text/javascript">
+            document.onkeypress = function(event) {
+                event = (event || window.event);
+                if (event.keyCode === 123) {
+                    //alert('No F-12');
+                    return false;
+                }
+            };
+            document.onmousedown = function(event) {
+                event = (event || window.event);
+                if (event.keyCode === 123) {
+                    //alert('No F-keys');
+                    return false;
+                }
+            };
+            document.onkeydown = function(event) {
+                event = (event || window.event);
+                if (event.keyCode === 123) {
+                    //alert('No F-keys');
+                    return false;
+                }
+            };
+            function contentprotector() {
+                return false; //initialize the function return false
+            }
+            function contentprotectors() {
+                return false; //initialize the function return false
+            }
+                    document.oncontextmenu = contentprotector; //calling the false function in contextmenu
+                //document.onmouseup = contentprotector; //calling the false function in mouseup event
+            var isCtrl = false;
+            var isAlt = false;
+            var isCmd = false;
+            var isShift = false;
+            var isPrint = false;
+            window.onkeyup = function(e)
+            {
+                if (e.which === 17)
+                    isCtrl = false; // make the condition when ctrl key is pressed no action has performed.
+    
+                if ((e.which === 93) || (e.which === 91) || (e.which === 224))
+                    isCmd = false; // make the condition when ctrl key is pressed no action has performed.
+            }
+            ;
+            window.onkeydown = function(e)
+            {
+                if (e.which === 17)
+                        isCtrl = true; //if onkeydown event is triggered then ctrl with possible copying keys are disabled.
+                   
+                    
+                            if ((e.which === 85) && (isCtrl === true)) {
+                            return false;
+                        }
+                                        if ((e.which === 65)  && (isCtrl === true)) {
+                            return false;
+                        }
+                                    if ((e.which === 88)  && (isCtrl === true)) {
+                            return false;
+                        }
+                                    if ((e.which === 67)  && (isCtrl === true)) {
+                            return false;
+                        }
+                                        if ((e.which === 83)  && (isCtrl === true)) {
+                            return false;
+                        }
+            
+
+                if (e.which === 16) {
+                    isShift = true;
+                }
+                        if (isCtrl === true && isShift === true && e.which === 73) { // for ctlr+shift+i key combination in Windows
+                        return false;
+                    }
+    
+                if ((e.which === 93) || (e.which === 91) || (e.which === 224))
+                    isCmd = true; //if onkeydown event is triggered then ctrl with possible copying ke
+                //
+                //ys are disabled.
+
+                            if ((e.which === 85) && (isCmd === true)) {
+                            return false;
+                        }
+                                        if ((e.which === 65) && (isCmd === true)) {
+                            return false;
+                        }
+                                    if ((e.which === 88) && (isCmd === true)) {
+                            return false;
+                        }
+                                    if ((e.which === 67) && (isCmd === true)) {
+                            return false;
+                        }
+                                        if ((e.which === 83) && (isCmd === true)) {
+                            return false;
+                        }
+            
+       
+                
+                if (e.which === 18) {
+                    isAlt = true;
+                }
+                        if (isCmd === true && isAlt === true && e.which === 73) { // for cmd+alt+i key combination in mac
+                        return false;
+                    }
+            
+   
+            };
+            isCtrl = false;
+            isCmd = false;
+                    document.ondragstart = contentprotector; // Dragging for Image is also Disabled(By Making Condition as false)
+    
+    </script>
+        
+
+
+    
+    
+
+
+    
+
+            
+        <script type="text/javascript" defer="" src="./Sony E system _ LENS-DB.COM_files/script.js" id="koko-analytics-js"></script>
+
+<script>
+
+function CopyIDFunction() {
+  var copyText = document.getElementById("IDElement");
+  navigator.clipboard.writeText(copyText.innerHTML);
+}
+
+function CopyLensNameFunction() {
+  var copyText = document.getElementById("LensNameElement");
+  navigator.clipboard.writeText(copyText.innerHTML);
+}
+
+function CopyListingDescriptionFunction() {
+  var copyText = document.getElementById("ListingDescriptionElement");
+  navigator.clipboard.writeText(copyText.innerText);
+}
+
+function toggleRow(id) {
+  var row = document.getElementById(id);
+  if (row.style.display == '') {
+    row.style.display = 'none';
+  }
+  else {
+    row.style.display = '';
+  }
+}
+
+</script>
+
+
+
+</body></html>

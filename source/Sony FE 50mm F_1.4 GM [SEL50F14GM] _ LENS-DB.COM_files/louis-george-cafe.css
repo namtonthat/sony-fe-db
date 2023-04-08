@@ -1,0 +1,23 @@
+@font-face {
+  font-family: "DefaultFont";
+  src: url("louis-george-cafe.woff");
+  font-style: normal;
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "DefaultFont";
+  src: url("louis-george-cafe-bold.woff");
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "DefaultFont";
+  src: url("louis-george-cafe-bold.woff");
+  font-style: normal;
+  font-weight: 700;
+}
+
+
+
