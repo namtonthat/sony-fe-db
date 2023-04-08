@@ -31,6 +31,7 @@ class Lens:
     # derived fields
     min_aperture: float = field(init=False)
     max_aperture: float = field(init=False)
+    fixed_aperture: bool = field(init=False)
     min_focal_length: float = field(init=False)
     max_focal_length: float = field(init=False)
     is_prime: bool = field(init=False)
@@ -72,11 +73,11 @@ class Lens:
         if len(speed_ranges) == 1:
             min = speed_ranges[0]
             max = speed_ranges[0]
-            self.is_zoom = False
+            self.fixed_aperture = True
         elif len(speed_ranges) >= 2:
             min = speed_ranges[0]
             max = speed_ranges[1]
-            self.is_zoom = True
+            self.fixed_aperture = False
         else:
             logging.error('Error parsing apertures; none found for %s',self.original_name)
         return (min, max)
@@ -88,10 +89,12 @@ class Lens:
             min = focal_ranges[0]
             max = focal_ranges[0]
             self.is_prime = True
+            self.is_zoom = False
         elif len(focal_ranges) >= 2:
             min = focal_ranges[0]
             max = focal_ranges[1]
             self.is_prime = False
+            self.is_zoom = True
         else:
             logging.error('Error parsing focal lengths; none found for %s',self.original_name)
 
