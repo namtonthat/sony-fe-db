@@ -2,7 +2,7 @@ import streamlit as st
 import polars as pl
 import altair as alt
 
-DATA_URL = "https://git@github.com:namtonthat/sony-fe-db.git"
+DATA_URL = "https://github.com/namtonthat/sony-fe-db/blob/main/outputs/lens.parquet"
 
 data = pl.read_parquet('outputs/lens.parquet')
 
@@ -17,13 +17,26 @@ def make_filters(option: pl.DataFrame) -> list:
 
 # filter pane details
 apertures = make_filters(data['min_aperture'])
+focal_lengths = make_filters(data['min_focal_length'])
+manufacturers = make_filters(data['system'])
 min_aperture = apertures[0]
+
 
 with st.sidebar:
     st.header("filters")
     st.markdown("""---""")
+    for manufacturer in manufacturers:
+        st.checkbox(
+            label=manufacturer,
+            value=True,
+        )
+
     st.select_slider(
-        label="minimum starting aperture",
+        label="focal lengths",
+        options=focal_lengths,
+    )
+    st.select_slider(
+        label="minimum aperture (f/*)",
         options=apertures,
         value=min_aperture
     )
